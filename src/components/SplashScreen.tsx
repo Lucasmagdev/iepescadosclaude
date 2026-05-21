@@ -1,96 +1,91 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 export function SplashScreen({ onDone }: { onDone: () => void }) {
-  const [phase, setPhase] = useState<'enter' | 'hold' | 'exit'>('enter')
-
   useEffect(() => {
-    // logo entra → segura → sai
-    const t1 = setTimeout(() => setPhase('hold'), 800)
-    const t2 = setTimeout(() => setPhase('exit'), 2200)
-    const t3 = setTimeout(onDone, 3000)
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3) }
+    const t = setTimeout(onDone, 4300)
+    return () => clearTimeout(t)
   }, [onDone])
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 9999,
-        background: '#1A0A04',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '24px',
-        transition: 'opacity 0.8s ease, transform 0.8s ease',
-        opacity: phase === 'exit' ? 0 : 1,
-        transform: phase === 'exit' ? 'scale(1.04)' : 'scale(1)',
-        pointerEvents: phase === 'exit' ? 'none' : 'all',
-      }}
-    >
-      {/* glow de fundo */}
-      <div
-        style={{
-          position: 'absolute',
-          width: '320px',
-          height: '320px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(232,100,42,0.25) 0%, transparent 70%)',
-          transition: 'opacity 0.6s ease',
-          opacity: phase === 'enter' ? 0 : 1,
-        }}
-      />
-
-      {/* logo */}
-      <img
-        src="/logo.png"
-        alt="IE Pescados"
-        style={{
-          height: '80px',
-          width: 'auto',
-          objectFit: 'contain',
-          position: 'relative',
-          filter: 'brightness(0) invert(1)',
-          transition: 'opacity 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)',
-          opacity: phase === 'enter' ? 0 : 1,
-          transform: phase === 'enter' ? 'scale(0.6) translateY(12px)' : 'scale(1) translateY(0)',
-        }}
-      />
-
-      {/* tagline */}
-      <p
-        style={{
-          color: 'rgba(255,255,255,0.5)',
-          fontSize: '13px',
-          letterSpacing: '0.2em',
-          textTransform: 'uppercase',
-          fontWeight: 500,
-          position: 'relative',
-          transition: 'opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s',
-          opacity: phase === 'enter' ? 0 : 0.6,
-          transform: phase === 'enter' ? 'translateY(8px)' : 'translateY(0)',
-        }}
-      >
-        Gestão de Promotores
-      </p>
-
-      {/* barra de loading */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          height: '3px',
-          background: '#E8642A',
-          transition: phase === 'enter'
-            ? 'width 0.1s ease'
-            : phase === 'hold'
-            ? 'width 1.4s ease'
-            : 'width 0.6s ease',
-          width: phase === 'enter' ? '0%' : phase === 'hold' ? '85%' : '100%',
-        }}
-      />
-    </div>
+    <>
+      <style>{`
+        .ie-splash {
+          position: fixed; inset: 0; z-index: 9999;
+          display: grid; place-items: center; overflow: hidden;
+          background:
+            radial-gradient(ellipse at 50% 18%, rgba(28,91,122,0.55), transparent 42%),
+            linear-gradient(180deg, #071525 0%, #07111d 46%, #03070c 100%);
+          animation: ieSplashExit 4.3s cubic-bezier(0.77,0,0.18,1) forwards;
+        }
+        .ie-splash-sea {
+          position: absolute; inset: 0; pointer-events: none; opacity: 0.7;
+          background:
+            repeating-linear-gradient(102deg, rgba(255,255,255,0.07) 0 1px, transparent 1px 28px),
+            repeating-linear-gradient(18deg, rgba(232,100,42,0.06) 0 1px, transparent 1px 42px);
+          filter: blur(0.5px);
+          animation: ieOceanDrift 4.3s ease-in-out forwards;
+        }
+        .ie-splash-current {
+          position: absolute; height: 38vh; top: 24vh; left: 0; right: 0;
+          pointer-events: none; opacity: 0;
+          background: linear-gradient(90deg, transparent, rgba(89,154,180,0.2), rgba(255,139,67,0.18), transparent);
+          filter: blur(24px);
+          animation: ieCurrent 4.3s ease forwards;
+        }
+        .ie-splash-vignette {
+          position: absolute; inset: 0; pointer-events: none;
+          background: radial-gradient(ellipse at 50% 50%, transparent 38%, rgba(3,7,12,0.62) 100%);
+        }
+        .ie-splash-content {
+          position: relative; display: flex; flex-direction: column;
+          align-items: center; gap: 16px;
+          animation: ieContentFade 4.3s ease forwards;
+        }
+        .ie-splash-logo { height: 72px; width: auto; object-fit: contain; filter: brightness(0) invert(1); }
+        .ie-splash-tag {
+          color: rgba(255,255,255,0.45); font-size: 11px;
+          letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500;
+        }
+        .ie-splash-bar {
+          position: absolute; bottom: 0; left: 0; height: 3px;
+          background: linear-gradient(90deg, #E8642A, #F3B23C);
+          animation: ieBar 4s ease forwards;
+        }
+        @keyframes ieSplashExit {
+          0%,72% { opacity:1; transform:scale(1); }
+          100%   { opacity:0; transform:scale(1.06); pointer-events:none; }
+        }
+        @keyframes ieOceanDrift {
+          0%   { transform: scale(1.2) rotate(-4deg) translateX(0); }
+          100% { transform: scale(1.35) rotate(-6deg) translateX(-4%); }
+        }
+        @keyframes ieCurrent {
+          0%  { opacity:0; transform:translateX(-32%) skewY(-8deg); }
+          30% { opacity:1; transform:translateX(0%) skewY(-6deg); }
+          70% { opacity:0.6; transform:translateX(18%) skewY(-5deg); }
+          100%{ opacity:0; transform:translateX(40%) skewY(-4deg); }
+        }
+        @keyframes ieContentFade {
+          0%    { opacity:0; transform:translateY(12px); }
+          20%   { opacity:1; transform:translateY(0); }
+          72%   { opacity:1; transform:translateY(0); }
+          100%  { opacity:0; transform:translateY(-8px); }
+        }
+        @keyframes ieBar {
+          0%  { width:0%; }  15% { width:30%; }
+          60% { width:82%; } 90% { width:100%; } 100% { width:100%; }
+        }
+      `}</style>
+      <div className="ie-splash">
+        <div className="ie-splash-sea" />
+        <div className="ie-splash-current" />
+        <div className="ie-splash-vignette" />
+        <div className="ie-splash-content">
+          <img src="/logo.png" alt="IE Pescados" className="ie-splash-logo" />
+          <span className="ie-splash-tag">Gestão de Promotores</span>
+        </div>
+        <div className="ie-splash-bar" />
+      </div>
+    </>
   )
 }
