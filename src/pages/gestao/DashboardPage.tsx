@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Calendar, ClipboardCheck, ClipboardList, Trophy, Camera, AlertTriangle, Download } from 'lucide-react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts'
-import { Logo } from '@/components/Logo'
 import { ConnectionStatusDot } from '@/components/ConnectionStatusDot'
 import { CompletionBadge } from '@/components/CompletionBadge'
 import { mockPromotores, mockAllVisits, mockProductChecks } from '@/data/mock'
@@ -73,7 +72,6 @@ export default function DashboardPage() {
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <Logo iconOnly className="lg:hidden" />
             <h1 className="text-2xl font-bold text-foreground">Relatório Diário de Execução</h1>
           </div>
           <p className="text-muted-foreground">{formatDate(selectedDate)}</p>
