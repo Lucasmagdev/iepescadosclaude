@@ -1,18 +1,15 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Calendar, ClipboardCheck, ClipboardList, Trophy, Camera, AlertTriangle } from 'lucide-react'
+import { Calendar, ClipboardCheck, ClipboardList, Trophy, Camera, AlertTriangle, Download } from 'lucide-react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts'
 import { Logo } from '@/components/Logo'
 import { ConnectionStatusDot } from '@/components/ConnectionStatusDot'
 import { CompletionBadge } from '@/components/CompletionBadge'
-import { mockPromotores, dashboardStats } from '@/data/mock'
+import { mockPromotores, mockAllVisits, mockProductChecks } from '@/data/mock'
+import { exportRelatorioGestao } from '@/lib/export'
 import { cn, formatDate } from '@/lib/utils'
 
-const pieData = [
-  { name: 'Executadas', value: 71, color: '#22C55E' },
-  { name: 'Justificadas', value: 0, color: '#EAB308' },
-  { name: 'Pendentes', value: 29, color: '#E5E5E5' },
-]
+const regionais = ['BH Centro', 'BH Norte', 'BH Sul', 'BH Leste', 'BH Oeste']
 
 type FilterTab = 'agenda' | 'nao_acessaram' | 'online' | 'offline'
 
@@ -21,18 +18,49 @@ export default function DashboardPage() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
   const [selectedRegional, setSelectedRegional] = useState('all')
   const [activeTab, setActiveTab] = useState<FilterTab>('agenda')
-  
-  const filteredPromotores = mockPromotores.filter(p => {
-    if (activeTab === 'nao_acessaram') return p.connectionStatus === 'not_accessed'
-    if (activeTab === 'online') return p.connectionStatus === 'online'
-    if (activeTab === 'offline') return p.connectionStatus === 'offline'
-    return true
-  }).sort((a, b) => b.completionPct - a.completionPct)
-  
-  const unavailablePromotores = mockPromotores.filter(
+
+  const filteredPromotores = useMemo(() => {
+    return mockPromotores
+      .filter(p => {
+        const regionalMatch = selectedRegional === 'all' || p.regional === selectedRegional
+        const tabMatch =
+          activeTab === 'nao_acessaram' ? p.connectionStatus === 'not_accessed'
+          : activeTab === 'online' ? p.connectionStatus === 'online'
+          : activeTab === 'offline' ? p.connectionStatus === 'offline'
+          : true
+        return regionalMatch && tabMatch
+      })
+      .sort((a, b) => b.completionPct - a.completionPct)
+  }, [activeTab, selectedRegional])
+
+  const stats = useMemo(() => {
+    const byRegional = selectedRegional === 'all'
+      ? mockPromotores
+      : mockPromotores.filter(p => p.regional === selectedRegional)
+    const programadas = byRegional.reduce((s, p) => s + p.visitsTotal, 0)
+    const executadas = byRegional.reduce((s, p) => s + p.visitsCompleted, 0)
+    const justificadas = mockAllVisits.filter(v =>
+      v.status === 'justified' &&
+      (selectedRegional === 'all' || mockPromotores.find(p => p.id === v.promotorId)?.regional === selectedRegional)
+    ).length
+    const pct = programadas ? Math.round((executadas / programadas) * 100) : 0
+    return { programadas, executadas, justificadas, pct }
+  }, [selectedRegional])
+
+  const pieData = [
+    { name: 'Executadas', value: stats.executadas, color: '#22C55E' },
+    { name: 'Justificadas', value: stats.justificadas, color: '#EAB308' },
+    { name: 'Pendentes', value: Math.max(0, stats.programadas - stats.executadas - stats.justificadas), color: '#E5E5E5' },
+  ]
+
+  const unavailablePromotores = filteredPromotores.filter(
     p => p.connectionStatus === 'offline' || p.connectionStatus === 'not_accessed'
   )
-  
+
+  const handleExport = () => {
+    exportRelatorioGestao(mockAllVisits, mockProductChecks, selectedDate)
+  }
+
   return (
     <div className="space-y-6 pb-20 lg:pb-0">
       {/* Header */}
@@ -44,8 +72,7 @@ export default function DashboardPage() {
           </div>
           <p className="text-muted-foreground">{formatDate(selectedDate)}</p>
         </div>
-        
-        {/* Filters */}
+
         <div className="flex flex-wrap items-center gap-3">
           <select
             value={selectedRegional}
@@ -53,20 +80,26 @@ export default function DashboardPage() {
             className="px-4 py-2.5 rounded-lg border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
           >
             <option value="all">Todas as regionais</option>
-            <option value="bh-centro">BH Centro</option>
-            <option value="bh-norte">BH Norte</option>
-            <option value="bh-sul">BH Sul</option>
+            {regionais.map(r => <option key={r} value={r}>{r}</option>)}
           </select>
-          
+
           <input
             type="date"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
             className="px-4 py-2.5 rounded-lg border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
           />
+
+          <button
+            onClick={handleExport}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+          >
+            <Download className="w-4 h-4" />
+            Exportar Excel
+          </button>
         </div>
       </div>
-      
+
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-card rounded-xl border p-4">
@@ -76,11 +109,11 @@ export default function DashboardPage() {
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Programadas</p>
-              <p className="text-2xl font-bold text-foreground">{dashboardStats.programadas}</p>
+              <p className="text-2xl font-bold text-foreground">{stats.programadas}</p>
             </div>
           </div>
         </div>
-        
+
         <div className="bg-card rounded-xl border p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-success/10 flex items-center justify-center">
@@ -88,11 +121,11 @@ export default function DashboardPage() {
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Executadas</p>
-              <p className="text-2xl font-bold text-foreground">{dashboardStats.executadas}</p>
+              <p className="text-2xl font-bold text-foreground">{stats.executadas}</p>
             </div>
           </div>
         </div>
-        
+
         <div className="bg-card rounded-xl border p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-warning/10 flex items-center justify-center">
@@ -100,56 +133,46 @@ export default function DashboardPage() {
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Justificadas</p>
-              <p className="text-2xl font-bold text-foreground">{dashboardStats.justificadas}</p>
+              <p className="text-2xl font-bold text-foreground">{stats.justificadas}</p>
             </div>
           </div>
         </div>
       </div>
-      
+
       {/* Chart */}
       <div className="bg-card rounded-xl border p-4">
-        <div className="h-64">
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="font-semibold text-foreground">Execução do dia</h2>
+          <span className="text-2xl font-bold text-primary">{stats.pct}%</span>
+        </div>
+        <div className="h-56">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              <Pie
-                data={pieData}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={80}
-                paddingAngle={2}
-                dataKey="value"
-              >
+              <Pie data={pieData} cx="50%" cy="50%" innerRadius={55} outerRadius={75} paddingAngle={2} dataKey="value">
                 {pieData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
-              <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle">
-                <tspan x="50%" dy="-0.5em" className="text-2xl font-bold fill-foreground">
-                  {dashboardStats.percentual}%
-                </tspan>
-                <tspan x="50%" dy="1.5em" className="text-sm fill-muted-foreground">
-                  Executado
-                </tspan>
+              <text x="50%" y="48%" textAnchor="middle" dominantBaseline="middle" style={{ fontSize: 22, fontWeight: 700, fill: 'var(--foreground)' }}>
+                {stats.pct}%
               </text>
-              <Legend
-                verticalAlign="bottom"
-                height={36}
-                formatter={(value) => <span className="text-sm text-foreground">{value}</span>}
-              />
+              <text x="50%" y="56%" textAnchor="middle" dominantBaseline="middle" style={{ fontSize: 12, fill: 'var(--muted-foreground)' }}>
+                Executado
+              </text>
+              <Legend verticalAlign="bottom" height={36} formatter={(value) => <span className="text-sm text-foreground">{value}</span>} />
             </PieChart>
           </ResponsiveContainer>
         </div>
       </div>
-      
+
       {/* Filter Tabs */}
       <div className="flex gap-2 overflow-x-auto hide-scrollbar">
-        {[
-          { id: 'agenda' as FilterTab, label: 'Com Agenda' },
-          { id: 'nao_acessaram' as FilterTab, label: 'Não Acessaram' },
-          { id: 'online' as FilterTab, label: 'Online' },
-          { id: 'offline' as FilterTab, label: 'Offline' },
-        ].map((tab) => (
+        {([
+          { id: 'agenda', label: 'Com Agenda' },
+          { id: 'nao_acessaram', label: 'Não Acessaram' },
+          { id: 'online', label: 'Online' },
+          { id: 'offline', label: 'Offline' },
+        ] as { id: FilterTab; label: string }[]).map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
@@ -164,7 +187,7 @@ export default function DashboardPage() {
           </button>
         ))}
       </div>
-      
+
       {/* Promoter Ranking */}
       <div className="bg-card rounded-xl border">
         <div className="p-4 border-b flex items-center justify-between">
@@ -175,11 +198,8 @@ export default function DashboardPage() {
               {filteredPromotores.length}
             </span>
           </div>
-          <select className="text-sm border rounded-lg px-3 py-1.5 bg-background text-foreground">
-            <option>Percentual Concluído</option>
-          </select>
         </div>
-        
+
         <div className="divide-y">
           {filteredPromotores.map((promotor, index) => (
             <button
@@ -190,7 +210,6 @@ export default function DashboardPage() {
               <span className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
                 {index + 1}
               </span>
-              
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="font-medium text-foreground truncate">{promotor.name}</span>
@@ -202,15 +221,15 @@ export default function DashboardPage() {
                     <Camera className="w-3 h-3" />
                     {promotor.photosCount} fotos
                   </span>
+                  <span className="text-muted-foreground/60">{promotor.regional}</span>
                 </div>
               </div>
-              
               <CompletionBadge percentage={promotor.completionPct} />
             </button>
           ))}
         </div>
       </div>
-      
+
       {/* Unavailable Promoters Warning */}
       {unavailablePromotores.length > 0 && (
         <div className="bg-warning/10 border border-warning/30 rounded-xl p-4">

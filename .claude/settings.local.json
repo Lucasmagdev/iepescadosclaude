@@ -16,7 +16,9 @@
       "Bash(cp /c/Users/Lucas/IEPESCADOxCODEXY/package.json /c/Users/Lucas/iepescados/package.json)",
       "Bash(python3 -c \"import json,sys; p=json.load\\(sys.stdin\\); print\\('name:', p['name']\\)\")",
       "Bash(ls /c/Users/Lucas/iepescados/vite.config* 2>&1 && echo \"---\" && rm -f /c/Users/Lucas/iepescados/package-lock.json && echo \"lock removed\")",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Bash(git commit -m ' *)",
+      "Bash(npm ls *)"
     ],
     "additionalDirectories": [
       "C:\\Users\\Lucas\\iepescados"
