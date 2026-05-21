@@ -18,6 +18,7 @@ export default function DashboardPage() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
   const [selectedRegional, setSelectedRegional] = useState('all')
   const [activeTab, setActiveTab] = useState<FilterTab>('agenda')
+  const [exporting, setExporting] = useState(false)
 
   const filteredPromotores = useMemo(() => {
     return mockPromotores
@@ -57,8 +58,13 @@ export default function DashboardPage() {
     p => p.connectionStatus === 'offline' || p.connectionStatus === 'not_accessed'
   )
 
-  const handleExport = () => {
-    exportRelatorioGestao(mockAllVisits, mockProductChecks, selectedDate)
+  const handleExport = async () => {
+    setExporting(true)
+    try {
+      await exportRelatorioGestao(mockAllVisits, mockProductChecks, selectedDate)
+    } finally {
+      setExporting(false)
+    }
   }
 
   return (
@@ -92,10 +98,11 @@ export default function DashboardPage() {
 
           <button
             onClick={handleExport}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+            disabled={exporting}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
           >
-            <Download className="w-4 h-4" />
-            Exportar Excel
+            <Download className={cn('w-4 h-4', exporting && 'animate-spin')} />
+            {exporting ? 'Geocodificando...' : 'Exportar Excel'}
           </button>
         </div>
       </div>
