@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh repo *)",
+      "PowerShell(gh repo view Lucasmagdev/iepescadosclaude --json name,description,url 2>&1)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(git -C /c/Users/Lucas/IEPESCADOxCODEXY status --short)",
+      "Bash(git -C /c/Users/Lucas/IEPESCADOxCODEXY ls-files --others --error-unmatch src/App.tsx)",
+      "Bash(rm -rf /c/Users/Lucas/iepescados/src)",
+      "Bash(cp -r /c/Users/Lucas/IEPESCADOxCODEXY/src /c/Users/Lucas/iepescados/src)",
+      "Bash(rm -rf /c/Users/Lucas/iepescados/components /c/Users/Lucas/iepescados/hooks /c/Users/Lucas/iepescados/lib /c/Users/Lucas/iepescados/styles)",
+      "Bash(cp -r /c/Users/Lucas/IEPESCADOxCODEXY/components /c/Users/Lucas/iepescados/components)",
+      "Bash(cp -r /c/Users/Lucas/IEPESCADOxCODEXY/hooks /c/Users/Lucas/iepescados/hooks)",
+      "Bash(rm -f /c/Users/Lucas/iepescados/vite.config.js)",
+      "Bash(cp /c/Users/Lucas/IEPESCADOxCODEXY/package.json /c/Users/Lucas/iepescados/package.json)",
+      "Bash(python3 -c \"import json,sys; p=json.load\\(sys.stdin\\); print\\('name:', p['name']\\)\")",
+      "Bash(ls /c/Users/Lucas/iepescados/vite.config* 2>&1 && echo \"---\" && rm -f /c/Users/Lucas/iepescados/package-lock.json && echo \"lock removed\")",
+      "Bash(npm install *)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\Lucas\\iepescados"
+    ]
+  }
+}
