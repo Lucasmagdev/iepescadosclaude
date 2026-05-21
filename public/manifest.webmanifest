@@ -1,0 +1,16 @@
+{
+  "name": "IE Pescados - Gestão de Promotores",
+  "short_name": "IE Pescados",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#E8642A",
+  "icons": [
+    {
+      "src": "/pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
