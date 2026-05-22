@@ -479,14 +479,24 @@ export default function VisitPage() {
 
           <div className="space-y-2">
             <label className="block text-sm font-medium text-foreground">Tipo de ocorrência</label>
-            <select
-              value={occurrenceType}
-              onChange={e => setOccurrenceType(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
-              style={{ background: 'var(--muted)', border: '1px solid var(--border)' }}
-            >
-              {occurrenceTypes.map(t => <option key={t} value={t}>{t}</option>)}
-            </select>
+            <div className="rounded-xl overflow-hidden border" style={{ borderColor: 'var(--border)' }}>
+              {occurrenceTypes.map((t, i) => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => setOccurrenceType(t)}
+                  className={cn(
+                    'w-full text-left px-4 py-3 text-sm transition-colors',
+                    i > 0 && 'border-t',
+                    occurrenceType === t
+                      ? 'bg-primary text-white font-semibold'
+                      : 'bg-background text-foreground hover:bg-muted/60'
+                  )}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="space-y-2">
