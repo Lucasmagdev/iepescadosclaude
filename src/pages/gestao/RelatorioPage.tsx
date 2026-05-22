@@ -107,11 +107,12 @@ export default function RelatorioPage() {
     <div className="space-y-6 pb-20 lg:pb-0 print:pb-0">
       <style>{`
         @media print {
-          body > * { display: none !important; }
-          .print-area { display: block !important; }
+          .gestao-sidebar,
+          .gestao-mobile-header,
+          .gestao-mobile-nav,
           .no-print { display: none !important; }
-          .gestao-sidebar, .gestao-mobile-header, .gestao-mobile-nav { display: none !important; }
-          main { margin-left: 0 !important; padding: 16px !important; }
+          main { margin-left: 0 !important; padding: 16px !important; background: white !important; }
+          body { background: white !important; }
         }
       `}</style>
 
