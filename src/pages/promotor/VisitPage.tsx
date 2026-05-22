@@ -244,7 +244,7 @@ export default function VisitPage() {
   if (step === 'check-in') {
     return (
       <div className="min-h-screen flex flex-col">
-        <PageHeader title={store.name} subtitle="Foto de entrada — ANTES do freezer" onBack={handleBackToRoteiro} />
+        <PageHeader title={store.name} subtitle="Foto de entrada do freezer" onBack={handleBackToRoteiro} />
         <StepIndicator current="check-in" />
 
         <div className="flex-1 p-4 flex flex-col gap-6">
@@ -520,7 +520,7 @@ export default function VisitPage() {
   if (step === 'check-out') {
     return (
       <div className="min-h-screen flex flex-col">
-        <PageHeader title={store.name} subtitle="Foto de saída — DEPOIS do freezer" onBack={() => setStep('occurrence')} />
+        <PageHeader title={store.name} subtitle="Foto de saída do freezer" onBack={() => setStep('occurrence')} />
         <StepIndicator current="check-out" />
 
         <div className="flex-1 p-4 flex flex-col gap-6">

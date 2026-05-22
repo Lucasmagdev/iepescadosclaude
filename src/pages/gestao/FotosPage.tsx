@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react'
 import { Image, MapPin, Camera } from 'lucide-react'
 import { mockStores, mockPromotores, mockPhotos, MockPhoto } from '@/data/mock'
-import { cn } from '@/lib/utils'
 
 export default function FotosPage() {
   const [selectedStore, setSelectedStore] = useState('all')
@@ -24,8 +23,6 @@ export default function FotosPage() {
       return acc
     }, {} as Record<string, { store: (typeof mockStores)[0]; photos: MockPhoto[] }>),
   [filtered])
-
-  const typeLabel = (t: MockPhoto['type']) => t === 'before' ? 'ANTES' : 'DEPOIS'
 
   return (
     <div className="space-y-6 pb-20 lg:pb-0">
@@ -66,68 +63,52 @@ export default function FotosPage() {
 
       {/* Photo groups by store */}
       <div className="space-y-6">
-        {Object.values(byStore).map(({ store, photos }) => {
-          const beforeCount = photos.filter(p => p.type === 'before').length
-          const afterCount = photos.filter(p => p.type === 'after').length
-          return (
-            <div key={store.id} className="bg-card rounded-xl border overflow-hidden">
-              <div className="p-4 border-b" style={{ background: 'rgba(232,100,42,0.04)' }}>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h2 className="font-semibold text-foreground">{store.name}</h2>
-                    <p className="text-sm text-muted-foreground">{store.address}</p>
-                  </div>
-                  <div className="flex gap-2 text-xs">
-                    <span className="px-2 py-1 rounded-full bg-blue-100 text-blue-700 font-medium">{beforeCount} antes</span>
-                    <span className="px-2 py-1 rounded-full bg-green-100 text-green-700 font-medium">{afterCount} depois</span>
-                  </div>
+        {Object.values(byStore).map(({ store, photos }) => (
+          <div key={store.id} className="bg-card rounded-xl border overflow-hidden">
+            <div className="p-4 border-b" style={{ background: 'rgba(232,100,42,0.04)' }}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="font-semibold text-foreground">{store.name}</h2>
+                  <p className="text-sm text-muted-foreground">{store.address}</p>
                 </div>
-              </div>
-
-              <div className="p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                {photos.map((photo) => {
-                  const promotor = mockPromotores.find((p) => p.id === photo.promotorId)
-                  return (
-                    <button
-                      key={photo.id}
-                      onClick={() => setLightbox(photo)}
-                      className="text-left group space-y-2"
-                    >
-                      <div className="aspect-square rounded-xl overflow-hidden bg-muted relative shadow-sm group-hover:shadow-md transition-shadow">
-                        <img
-                          src={photo.imageUrl}
-                          alt={typeLabel(photo.type)}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          onError={(e) => {
-                            const t = e.target as HTMLImageElement
-                            t.style.display = 'none'
-                            t.parentElement!.classList.add('flex', 'items-center', 'justify-center')
-                          }}
-                        />
-                        <span className={cn(
-                          'absolute top-1.5 left-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded-md',
-                          photo.type === 'before' ? 'bg-blue-500 text-white' : 'bg-green-500 text-white'
-                        )}>
-                          {typeLabel(photo.type)}
-                        </span>
-                      </div>
-                      <div>
-                        <p className="text-xs font-medium text-foreground truncate">{promotor?.name ?? 'Promotor'}</p>
-                        <p className="text-xs text-muted-foreground">{photo.timestamp}</p>
-                        {photo.lat != null && photo.lng != null && (
-                          <p className="text-[10px] text-muted-foreground flex items-center gap-0.5 mt-0.5">
-                            <MapPin className="w-2.5 h-2.5 shrink-0" />
-                            {photo.lat.toFixed(4)}, {photo.lng.toFixed(4)}
-                          </p>
-                        )}
-                      </div>
-                    </button>
-                  )
-                })}
+                <span className="px-2 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
+                  {photos.length} foto{photos.length !== 1 ? 's' : ''}
+                </span>
               </div>
             </div>
-          )
-        })}
+
+            <div className="p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {photos.map((photo) => {
+                const promotor = mockPromotores.find((p) => p.id === photo.promotorId)
+                return (
+                  <button
+                    key={photo.id}
+                    onClick={() => setLightbox(photo)}
+                    className="text-left group space-y-2"
+                  >
+                    <div className="aspect-square rounded-xl overflow-hidden bg-muted relative shadow-sm group-hover:shadow-md transition-shadow">
+                      <img
+                        src={photo.imageUrl}
+                        alt="Foto do freezer"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div>
+                      <p className="text-xs font-medium text-foreground truncate">{promotor?.name ?? 'Promotor'}</p>
+                      <p className="text-xs text-muted-foreground">{photo.timestamp}</p>
+                      {photo.lat != null && photo.lng != null && (
+                        <p className="text-[10px] text-muted-foreground flex items-center gap-0.5 mt-0.5">
+                          <MapPin className="w-2.5 h-2.5 shrink-0" />
+                          {photo.lat.toFixed(4)}, {photo.lng.toFixed(4)}
+                        </p>
+                      )}
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        ))}
       </div>
 
       {Object.keys(byStore).length === 0 && (
@@ -150,27 +131,17 @@ export default function FotosPage() {
           <div className="relative max-w-2xl w-full" onClick={e => e.stopPropagation()}>
             <img
               src={lightbox.imageUrl}
-              alt={typeLabel(lightbox.type)}
+              alt="Foto do freezer"
               className="w-full rounded-2xl shadow-2xl"
             />
             <div className="absolute bottom-0 inset-x-0 p-4 rounded-b-2xl" style={{ background: 'rgba(0,0,0,0.7)' }}>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-white font-semibold">
-                    {mockStores.find(s => s.id === lightbox.storeId)?.name}
-                  </p>
-                  <p className="text-white/70 text-sm">
-                    {mockPromotores.find(p => p.id === lightbox.promotorId)?.name} · {lightbox.timestamp}
-                    {lightbox.lat != null && ` · ${lightbox.lat.toFixed(4)}, ${lightbox.lng!.toFixed(4)}`}
-                  </p>
-                </div>
-                <span className={cn(
-                  'px-3 py-1 rounded-full text-xs font-bold',
-                  lightbox.type === 'before' ? 'bg-blue-500 text-white' : 'bg-green-500 text-white'
-                )}>
-                  {typeLabel(lightbox.type)}
-                </span>
-              </div>
+              <p className="text-white font-semibold">
+                {mockStores.find(s => s.id === lightbox.storeId)?.name}
+              </p>
+              <p className="text-white/70 text-sm">
+                {mockPromotores.find(p => p.id === lightbox.promotorId)?.name} · {lightbox.timestamp}
+                {lightbox.lat != null && ` · ${lightbox.lat.toFixed(4)}, ${lightbox.lng!.toFixed(4)}`}
+              </p>
             </div>
             <button
               onClick={() => setLightbox(null)}

@@ -269,12 +269,12 @@ export default function PromotorDetailPage() {
               const store = mockStores.find(s => s.id === photo.storeId)
               return (
                 <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden bg-muted">
-                  <img src={photo.imageUrl} alt="" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
-                  <span className={cn('absolute top-1 left-1 text-[9px] font-bold px-1.5 py-0.5 rounded',
-                    photo.type === 'before' ? 'bg-blue-500 text-white' : 'bg-green-500 text-white'
-                  )}>
-                    {photo.type === 'before' ? 'ANTES' : 'DEPOIS'}
-                  </span>
+                  <img src={photo.imageUrl} alt="" className="w-full h-full object-cover" />
+                  {store && (
+                    <span className="absolute bottom-0 inset-x-0 text-[8px] font-medium px-1 py-0.5 truncate text-white" style={{ background: 'rgba(0,0,0,0.55)' }}>
+                      {store.name.split(' ')[0]}
+                    </span>
+                  )}
                 </div>
               )
             })}
