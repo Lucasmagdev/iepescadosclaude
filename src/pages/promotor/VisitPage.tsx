@@ -340,18 +340,26 @@ export default function VisitPage() {
         <div className="flex-1 p-4 space-y-5 overflow-auto pb-28">
           {/* Product card */}
           <div className="rounded-2xl border overflow-hidden" style={{ borderColor: 'var(--border)' }}>
-            <div
-              className="aspect-video flex flex-col items-center justify-center gap-2"
-              style={{ background: 'rgba(232,100,42,0.06)' }}
-            >
-              <Fish className="w-10 h-10 text-primary/50" />
-              <span className="text-xs text-muted-foreground">Imagem do produto</span>
+            <div className="aspect-video relative overflow-hidden" style={{ background: 'rgba(232,100,42,0.06)' }}>
+              {currentProduct.imageUrl ? (
+                <img
+                  src={currentProduct.imageUrl}
+                  alt={currentProduct.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center gap-2">
+                  <Fish className="w-10 h-10 text-primary/50" />
+                  <span className="text-xs text-muted-foreground">Imagem do produto</span>
+                </div>
+              )}
+              <div className="absolute top-2 right-2 px-2 py-1 rounded-lg text-xs font-mono font-semibold text-white" style={{ background: 'rgba(0,0,0,0.45)' }}>
+                SKU {currentProduct.sku}
+              </div>
             </div>
             <div className="p-4 bg-card">
               <h2 className="font-bold text-foreground text-lg">{currentProduct.name}</h2>
-              <span className="inline-flex items-center px-2 py-0.5 mt-1 rounded-lg text-xs font-mono font-medium" style={{ background: 'rgba(255,255,255,0.06)', color: 'var(--muted-foreground)' }}>
-                SKU {currentProduct.sku}
-              </span>
             </div>
           </div>
 

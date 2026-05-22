@@ -80,6 +80,6 @@ export const useVisitStore = create<VisitState>()(
         }
       },
     }),
-    { name: 'ie-pescados-visits' }
+    { name: 'ie-pescados-visits-v3', version: 3 }
   )
 )

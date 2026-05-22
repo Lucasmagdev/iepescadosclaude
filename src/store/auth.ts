@@ -18,7 +18,7 @@ export const useAuthStore = create<AuthState>()(
         const user: User = {
           id: role === 'promotor' ? 'current' : 'gestao-1',
           email,
-          name: role === 'promotor' ? 'Ana Costa' : 'Carlos Mendonça',
+          name: role === 'promotor' ? 'João Silva' : 'Carlos Mendonça',
           role,
         }
         set({ user, isAuthenticated: true })

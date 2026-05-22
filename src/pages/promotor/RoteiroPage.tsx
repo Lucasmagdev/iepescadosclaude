@@ -105,10 +105,9 @@ export default function RoteiroPage() {
                 isActive && 'border-primary/40',
               )}
               style={{
-                background: isActive
-                  ? 'linear-gradient(135deg, rgba(232,100,42,0.08) 0%, rgba(7,21,37,0.9) 100%)'
-                  : 'var(--card)',
-                borderColor: isActive ? 'rgba(232,100,42,0.4)' : undefined,
+                background: isActive ? '#FFF5F0' : 'var(--card)',
+                borderColor: isActive ? '#E8642A' : undefined,
+                borderWidth: isActive ? 2 : 1,
               }}
             >
               <div className="flex items-start gap-3">
