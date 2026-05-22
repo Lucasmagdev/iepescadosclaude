@@ -1,14 +1,15 @@
 import { Outlet, NavLink } from 'react-router-dom'
-import { LayoutDashboard, Users, Map, Image, Settings } from 'lucide-react'
+import { LayoutDashboard, Users, Map, Image, Settings, FileBarChart2 } from 'lucide-react'
 import { Logo } from '@/components/Logo'
 import { cn } from '@/lib/utils'
 
 const navItems = [
-  { to: '/gestao', icon: LayoutDashboard, label: 'Dashboard', end: true },
-  { to: '/gestao/promotores', icon: Users, label: 'Promotores' },
-  { to: '/gestao/mapa', icon: Map, label: 'Mapa' },
-  { to: '/gestao/fotos', icon: Image, label: 'Fotos' },
-  { to: '/gestao/config', icon: Settings, label: 'Config' },
+  { to: '/gestao',           icon: LayoutDashboard, label: 'Dashboard', end: true },
+  { to: '/gestao/promotores',icon: Users,           label: 'Promotores' },
+  { to: '/gestao/mapa',      icon: Map,             label: 'Mapa' },
+  { to: '/gestao/relatorio', icon: FileBarChart2,   label: 'Relatório' },
+  { to: '/gestao/fotos',     icon: Image,           label: 'Fotos' },
+  { to: '/gestao/config',    icon: Settings,        label: 'Config' },
 ]
 
 export default function GestaoLayout() {
