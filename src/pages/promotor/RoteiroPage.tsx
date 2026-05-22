@@ -43,8 +43,8 @@ export default function RoteiroPage() {
       <div
         className="rounded-2xl p-5 relative overflow-hidden"
         style={{
-          background: 'linear-gradient(135deg, rgba(232,100,42,0.18) 0%, rgba(28,91,122,0.25) 100%)',
-          border: '1px solid rgba(232,100,42,0.25)',
+          background: 'linear-gradient(135deg, #FFF5F0 0%, #FFF9F5 100%)',
+          border: '1px solid rgba(232,100,42,0.2)',
         }}
       >
         <div className="flex items-center justify-between">
