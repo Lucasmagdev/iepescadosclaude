@@ -15,6 +15,7 @@ import DashboardPage from './pages/gestao/DashboardPage'
 import PromotoresPage from './pages/gestao/PromotoresPage'
 import PromotorDetailPage from './pages/gestao/PromotorDetailPage'
 import LojasPage from './pages/gestao/LojasPage'
+import MapaPage from './pages/gestao/MapaPage'
 import FotosPage from './pages/gestao/FotosPage'
 import ConfigPage from './pages/gestao/ConfigPage'
 import { Toaster } from 'sonner'
@@ -77,6 +78,7 @@ export default function App() {
           <Route path="promotores" element={<PromotoresPage />} />
           <Route path="promotores/:promotorId" element={<PromotorDetailPage />} />
           <Route path="lojas" element={<LojasPage />} />
+          <Route path="mapa" element={<MapaPage />} />
           <Route path="fotos" element={<FotosPage />} />
           <Route path="config" element={<ConfigPage />} />
         </Route>

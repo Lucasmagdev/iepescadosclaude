@@ -1,12 +1,12 @@
 import { Outlet, NavLink } from 'react-router-dom'
-import { LayoutDashboard, Users, Store, Image, Settings } from 'lucide-react'
+import { LayoutDashboard, Users, Map, Image, Settings } from 'lucide-react'
 import { Logo } from '@/components/Logo'
 import { cn } from '@/lib/utils'
 
 const navItems = [
   { to: '/gestao', icon: LayoutDashboard, label: 'Dashboard', end: true },
   { to: '/gestao/promotores', icon: Users, label: 'Promotores' },
-  { to: '/gestao/lojas', icon: Store, label: 'Lojas' },
+  { to: '/gestao/mapa', icon: Map, label: 'Mapa' },
   { to: '/gestao/fotos', icon: Image, label: 'Fotos' },
   { to: '/gestao/config', icon: Settings, label: 'Config' },
 ]

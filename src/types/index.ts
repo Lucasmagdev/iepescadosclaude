@@ -14,6 +14,8 @@ export interface Promotor {
   visitsTotal: number
   photosCount: number
   syncProgress: { completed: number; total: number }
+  lat?: number
+  lng?: number
 }
 
 export interface Store {

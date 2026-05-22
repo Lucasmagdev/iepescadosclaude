@@ -43,6 +43,7 @@ export const mockPromotores: Promotor[] = [
     visitsTotal: 5,
     photosCount: 18,
     syncProgress: { completed: 5, total: 5 },
+    lat: -19.9245, lng: -43.9705,
   },
   {
     id: '2',
@@ -60,6 +61,7 @@ export const mockPromotores: Promotor[] = [
     visitsTotal: 6,
     photosCount: 16,
     syncProgress: { completed: 5, total: 6 },
+    lat: -19.9338, lng: -43.9380,
   },
   {
     id: '3',
@@ -77,6 +79,7 @@ export const mockPromotores: Promotor[] = [
     visitsTotal: 5,
     photosCount: 8,
     syncProgress: { completed: 2, total: 5 },
+    lat: -19.8940, lng: -43.9448,
   },
   {
     id: '4',
@@ -94,6 +97,7 @@ export const mockPromotores: Promotor[] = [
     visitsTotal: 7,
     photosCount: 14,
     syncProgress: { completed: 4, total: 7 },
+    lat: -19.9550, lng: -43.9508,
   },
   {
     id: '5',
@@ -111,6 +115,7 @@ export const mockPromotores: Promotor[] = [
     visitsTotal: 4,
     photosCount: 10,
     syncProgress: { completed: 3, total: 4 },
+    lat: -19.9015, lng: -43.9130,
   },
   {
     id: '6',
@@ -128,6 +133,7 @@ export const mockPromotores: Promotor[] = [
     visitsTotal: 6,
     photosCount: 0,
     syncProgress: { completed: 0, total: 6 },
+    lat: -19.9192, lng: -43.9880,
   },
 ]
 
