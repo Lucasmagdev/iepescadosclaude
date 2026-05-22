@@ -1,15 +1,20 @@
 import { Product, Store, Promotor, Visit } from '../types'
 import { ProductCheck } from '../types'
 
+const IMG_SHRIMP_COOKED = 'https://upload.wikimedia.org/wikipedia/commons/6/60/NCI_steamed_shrimp.jpg'
+const IMG_SHRIMP_WHOLE  = 'https://upload.wikimedia.org/wikipedia/commons/8/8f/Crispy_deep-fried_prawn_of_Ulakan.JPG'
+const IMG_PAELLA        = 'https://upload.wikimedia.org/wikipedia/commons/a/a1/Paella_seafood.JPG'
+const IMG_TILAPIA       = 'https://upload.wikimedia.org/wikipedia/commons/4/48/Tilapia_fish.jpg'
+
 export const mockProducts: Product[] = [
-  { id: '1', sku: '239957', name: 'Camarão coz. int. 18/26 – pct 180g',          imageUrl: 'https://placehold.co/400x240/FFF5F0/E8642A?text=Camarão+18%2F26&font=montserrat' },
-  { id: '2', sku: '239872', name: 'Camarão coz. s/cabeça 36/52 – pct 180g',      imageUrl: 'https://placehold.co/400x240/FFF5F0/E8642A?text=Camarão+36%2F52+s%2Fcab.&font=montserrat' },
-  { id: '3', sku: '239961', name: 'Camarão coz. desc. 36/52 – pct 180g',         imageUrl: 'https://placehold.co/400x240/FFF5F0/E8642A?text=Camarão+desc.+36%2F52&font=montserrat' },
-  { id: '4', sku: '239959', name: 'Camarão coz. desc. 40/60 – pct 300g',         imageUrl: 'https://placehold.co/400x240/FFF5F0/E8642A?text=Camarão+desc.+40%2F60&font=montserrat' },
-  { id: '5', sku: '239953', name: 'Camarão coz. evis. colinha 25/40 – pct 300g', imageUrl: 'https://placehold.co/400x240/FFF5F0/E8642A?text=Camarão+colinha+25%2F40&font=montserrat' },
-  { id: '6', sku: '239954', name: 'Camarão cinza desc. eviscerado',               imageUrl: 'https://placehold.co/400x240/FFF5F0/E8642A?text=Camarão+Cinza&font=montserrat' },
-  { id: '7', sku: '239960', name: 'Mix frutos do mar paella',                     imageUrl: 'https://placehold.co/400x240/FFF0E0/d4551f?text=Mix+Frutos+do+Mar&font=montserrat' },
-  { id: '8', sku: '239962', name: 'Filé de tilápia',                              imageUrl: 'https://placehold.co/400x240/E8F5F0/1a7a50?text=Filé+de+Tilápia&font=montserrat' },
+  { id: '1', sku: '239957', name: 'Camarão coz. int. 18/26 – pct 180g',          imageUrl: IMG_SHRIMP_COOKED },
+  { id: '2', sku: '239872', name: 'Camarão coz. s/cabeça 36/52 – pct 180g',      imageUrl: IMG_SHRIMP_WHOLE  },
+  { id: '3', sku: '239961', name: 'Camarão coz. desc. 36/52 – pct 180g',         imageUrl: IMG_SHRIMP_COOKED },
+  { id: '4', sku: '239959', name: 'Camarão coz. desc. 40/60 – pct 300g',         imageUrl: IMG_SHRIMP_COOKED },
+  { id: '5', sku: '239953', name: 'Camarão coz. evis. colinha 25/40 – pct 300g', imageUrl: IMG_SHRIMP_WHOLE  },
+  { id: '6', sku: '239954', name: 'Camarão cinza desc. eviscerado',               imageUrl: IMG_SHRIMP_WHOLE  },
+  { id: '7', sku: '239960', name: 'Mix frutos do mar paella',                     imageUrl: IMG_PAELLA        },
+  { id: '8', sku: '239962', name: 'Filé de tilápia',                              imageUrl: IMG_TILAPIA       },
 ]
 
 export const mockStores: Store[] = [
