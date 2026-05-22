@@ -88,10 +88,10 @@ function PageHeader({ title, subtitle, onBack }: { title: string; subtitle: stri
     <header
       className="sticky top-0 z-40 px-4 pt-3"
       style={{
-        background: 'rgba(7,21,37,0.88)',
+        background: 'rgba(255,255,255,0.92)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        borderBottom: '1px solid #E5E5E5',
       }}
     >
       <div className="flex items-center gap-3 pb-3">
@@ -115,10 +115,10 @@ function FixedFooter({ children }: { children: React.ReactNode }) {
     <div
       className="fixed bottom-0 left-0 right-0 p-4"
       style={{
-        background: 'rgba(5,14,24,0.92)',
+        background: 'rgba(255,255,255,0.95)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
-        borderTop: '1px solid rgba(255,255,255,0.07)',
+        borderTop: '1px solid #E5E5E5',
       }}
     >
       {children}

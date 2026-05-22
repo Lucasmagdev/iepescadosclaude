@@ -15,101 +15,64 @@ export default function GestaoLayout() {
   return (
     <>
       <style>{`
-        .gestao-dark {
-          --background: #071525;
-          --foreground: #ddeaf3;
-          --card: #0d1e30;
-          --card-foreground: #ddeaf3;
-          --popover: #0d1e30;
-          --popover-foreground: #ddeaf3;
-          --muted: #112033;
-          --muted-foreground: #7aaccb;
-          --border: #1a3048;
-          --input: #1a3048;
-          --secondary: #112033;
-          --secondary-foreground: #ddeaf3;
-          --accent: #112033;
-          --accent-foreground: #ddeaf3;
-        }
-
-        .gestao-dark .gestao-main {
-          background:
-            radial-gradient(ellipse at 70% 0%, rgba(28,91,122,0.25) 0%, transparent 50%),
-            linear-gradient(180deg, #071525 0%, #07111d 60%, #050e18 100%);
-          min-height: 100vh;
-        }
-
         .gestao-sidebar {
           position: fixed; left: 0; top: 0; bottom: 0; width: 256px;
           display: none; flex-direction: column; overflow: hidden;
-          background:
-            radial-gradient(ellipse at 50% 0%, rgba(28,91,122,0.55) 0%, transparent 55%),
-            linear-gradient(180deg, #071525 0%, #07111d 55%, #050e18 100%);
-          border-right: 1px solid rgba(255,255,255,0.07);
+          background: #ffffff;
+          border-right: 1px solid #E5E5E5;
         }
         @media (min-width: 1024px) { .gestao-sidebar { display: flex; } }
 
-        .gestao-sidebar-sea {
-          position: absolute; inset: 0; pointer-events: none;
-          opacity: 0.35;
-          background:
-            repeating-linear-gradient(108deg, rgba(255,255,255,0.055) 0 1px, transparent 1px 32px),
-            repeating-linear-gradient(22deg, rgba(232,100,42,0.04) 0 1px, transparent 1px 48px);
-          filter: blur(0.5px);
-        }
-        .gestao-sidebar-glow {
-          position: absolute; top: -10%; left: -20%;
-          width: 140%; height: 40%; pointer-events: none;
-          background: radial-gradient(ellipse, rgba(232,100,42,0.12) 0%, transparent 65%);
-          filter: blur(24px);
+        .gestao-sidebar-accent {
+          position: absolute; top: 0; left: 0; right: 0; height: 3px;
+          background: linear-gradient(90deg, #E8642A, #F3B23C);
         }
 
         .gestao-nav-link {
           display: flex; align-items: center; gap: 12px;
           padding: 10px 16px; border-radius: 10px;
           font-size: 14px; font-weight: 500;
-          color: rgba(255,255,255,0.5);
-          transition: background 0.18s, color 0.18s;
-          position: relative; text-decoration: none;
+          color: #737373;
+          transition: background 0.15s, color 0.15s;
+          text-decoration: none;
         }
         .gestao-nav-link:hover {
-          background: rgba(255,255,255,0.06);
-          color: rgba(255,255,255,0.85);
+          background: #FFF5F0;
+          color: #E8642A;
         }
         .gestao-nav-link.active {
-          background: rgba(232,100,42,0.15);
+          background: #FFF5F0;
           color: #E8642A;
-          box-shadow: inset 3px 0 0 #E8642A;
+          font-weight: 600;
         }
+        .gestao-nav-link.active svg { color: #E8642A; }
 
         .gestao-mobile-header {
-          background:
-            radial-gradient(ellipse at 50% 0%, rgba(28,91,122,0.7) 0%, transparent 80%),
-            linear-gradient(180deg, #071525 0%, #07111d 100%);
-          border-bottom: 1px solid rgba(255,255,255,0.07);
+          background: #ffffff;
+          border-bottom: 1px solid #E5E5E5;
         }
         .gestao-mobile-nav {
-          background: #071525;
-          border-top: 1px solid rgba(255,255,255,0.08);
+          background: #ffffff;
+          border-top: 1px solid #E5E5E5;
         }
         .gestao-mobile-nav-link {
           display: flex; flex-direction: column; align-items: center; gap: 4px;
-          padding: 8px 12px; border-radius: 10px;
-          color: rgba(255,255,255,0.4); min-width: 56px;
-          transition: color 0.18s; text-decoration: none; font-size: 10px; font-weight: 500;
+          padding: 8px 12px; border-radius: 10px; min-width: 56px;
+          color: #A3A3A3;
+          transition: color 0.15s; text-decoration: none;
+          font-size: 10px; font-weight: 500;
         }
-        .gestao-mobile-nav-link:hover { color: rgba(255,255,255,0.75); }
+        .gestao-mobile-nav-link:hover { color: #E8642A; }
         .gestao-mobile-nav-link.active { color: #E8642A; }
       `}</style>
 
-      <div className="gestao-dark min-h-screen">
+      <div className="min-h-screen bg-background">
         {/* Desktop Sidebar */}
         <aside className="gestao-sidebar">
-          <div className="gestao-sidebar-sea" />
-          <div className="gestao-sidebar-glow" />
+          <div className="gestao-sidebar-accent" />
 
-          <div style={{ position: 'relative', padding: '24px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-            <Logo className="brightness-0 invert" />
+          <div style={{ position: 'relative', padding: '24px', borderBottom: '1px solid #E5E5E5' }}>
+            <Logo />
           </div>
 
           <nav style={{ flex: 1, padding: '16px', display: 'flex', flexDirection: 'column', gap: 2, position: 'relative' }}>
@@ -126,8 +89,8 @@ export default function GestaoLayout() {
             ))}
           </nav>
 
-          <div style={{ position: 'relative', padding: '16px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-            <p style={{ color: 'rgba(255,255,255,0.18)', fontSize: 11, textAlign: 'center', letterSpacing: '0.1em' }}>
+          <div style={{ padding: '16px', borderTop: '1px solid #E5E5E5' }}>
+            <p style={{ color: '#D4D4D4', fontSize: 11, textAlign: 'center', letterSpacing: '0.1em' }}>
               IE Pescados v1.0
             </p>
           </div>
@@ -136,12 +99,12 @@ export default function GestaoLayout() {
         {/* Mobile Header */}
         <header className="gestao-mobile-header lg:hidden sticky top-0 z-40 px-4 py-3">
           <div className="flex items-center justify-between">
-            <Logo className="brightness-0 invert" size="sm" />
+            <Logo size="sm" />
           </div>
         </header>
 
         {/* Main Content */}
-        <main className="lg:ml-64 gestao-main">
+        <main className="lg:ml-64 min-h-screen bg-muted/40">
           <div className="p-4 lg:p-8">
             <Outlet />
           </div>
