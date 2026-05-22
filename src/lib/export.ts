@@ -82,15 +82,19 @@ function geoKey(lat?: number, lng?: number) {
 export async function exportRelatorioGestao(
   visits: Visit[],
   productChecks: ProductCheck[],
-  date?: string
+  startDate?: string,
+  endDate?: string
 ) {
-  // Resolve endereços antes de montar o Excel
-  const geoCache = await buildGeoCache(visits)
+  const filtered = startDate && endDate
+    ? visits.filter(v => v.date >= startDate && v.date <= endDate)
+    : visits
+
+  const geoCache = await buildGeoCache(filtered)
 
   const wb = XLSX.utils.book_new()
 
   // ── Aba 1: Visitas ──────────────────────────────────────────────────────────
-  const visitRows = visits.map(v => {
+  const visitRows = filtered.map(v => {
     const keyIn  = geoKey(v.checkInLat, v.checkInLng)
     const keyOut = geoKey(v.checkOutLat, v.checkOutLng)
     return {
@@ -119,8 +123,9 @@ export async function exportRelatorioGestao(
   XLSX.utils.book_append_sheet(wb, wsVisitas, 'Visitas')
 
   // ── Aba 2: Produtos ─────────────────────────────────────────────────────────
-  const productRows = productChecks.map(c => {
-    const visit = visits.find(v => v.id === c.visitId)
+  const filteredChecks = productChecks.filter(c => filtered.some(v => v.id === c.visitId))
+  const productRows = filteredChecks.map(c => {
+    const visit = filtered.find(v => v.id === c.visitId)
     return {
       Data: visit?.date ?? '-',
       Promotor: promotorName(visit?.promotorId ?? ''),
@@ -136,7 +141,7 @@ export async function exportRelatorioGestao(
     }
   })
 
-  const wsProdutos = XLSX.utils.json_to_sheet(productRows)
+  const wsProdutos = XLSX.utils.json_to_sheet(productRows as object[])
   wsProdutos['!cols'] = [
     { wch: 12 }, { wch: 20 }, { wch: 22 }, { wch: 14 },
     { wch: 14 }, { wch: 30 }, { wch: 10 }, { wch: 14 }, { wch: 10 }, { wch: 12 }, { wch: 20 },
@@ -170,6 +175,8 @@ export async function exportRelatorioGestao(
   ]
   XLSX.utils.book_append_sheet(wb, wsPromotores, 'Promotores')
 
-  const filename = `IE_Pescados_${date ?? new Date().toISOString().split('T')[0]}.xlsx`
+  const filename = startDate && endDate && startDate !== endDate
+    ? `IE_Pescados_${startDate}_a_${endDate}.xlsx`
+    : `IE_Pescados_${startDate ?? new Date().toISOString().split('T')[0]}.xlsx`
   XLSX.writeFile(wb, filename)
 }

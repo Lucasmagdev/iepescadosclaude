@@ -132,6 +132,7 @@ export const mockPromotores: Promotor[] = [
 ]
 
 const today = new Date().toISOString().split('T')[0]
+const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]
 
 // Visitas do promotor logado (Ana Costa) — roteiro de demo
 export const mockVisits: Visit[] = [
@@ -233,6 +234,16 @@ export const mockAllVisits: Visit[] = [
     occurrenceNote: 'Concorrente com promoção agressiva: Camarão Rosa R$11,99',
   },
   // Lucas Ferreira – sem acesso
+
+  // ── Ontem (dados históricos para filtro de período) ──────────────────────
+  { id: 'v-y-1', storeId: '3', promotorId: '1', date: yesterday, status: 'completed', checkInTime: '08:10', checkOutTime: '09:05', occurrenceType: 'Sem ocorrência', checkInLat: -19.8938, checkInLng: -43.9445 },
+  { id: 'v-y-2', storeId: '4', promotorId: '1', date: yesterday, status: 'completed', checkInTime: '09:30', checkOutTime: '10:20', occurrenceType: 'Sem ocorrência' },
+  { id: 'v-y-3', storeId: '5', promotorId: '1', date: yesterday, status: 'completed', checkInTime: '11:00', checkOutTime: '11:50', occurrenceType: 'Sem ocorrência', checkInLat: -19.9547, checkInLng: -43.9512 },
+  { id: 'v-y-4', storeId: '1', promotorId: '2', date: yesterday, status: 'completed', checkInTime: '08:05', checkOutTime: '08:58', occurrenceType: 'Sem ocorrência', checkInLat: -19.9334, checkInLng: -43.9383 },
+  { id: 'v-y-5', storeId: '6', promotorId: '2', date: yesterday, status: 'completed', checkInTime: '09:20', checkOutTime: '10:10', occurrenceType: 'Preço divergente', occurrenceNote: 'Camarão Cinza R$16,99 vs sistema R$14,90' },
+  { id: 'v-y-6', storeId: '2', promotorId: '2', date: yesterday, status: 'justified', occurrenceType: 'Loja fechada', occurrenceNote: 'Feriado municipal' },
+  { id: 'v-y-7', storeId: '5', promotorId: '4', date: yesterday, status: 'completed', checkInTime: '08:30', checkOutTime: '09:25', occurrenceType: 'Sem ocorrência', checkInLat: -19.9547, checkInLng: -43.9512 },
+  { id: 'v-y-8', storeId: '3', promotorId: '5', date: yesterday, status: 'completed', checkInTime: '07:15', checkOutTime: '08:05', occurrenceType: 'Ruptura de produto', occurrenceNote: 'Mix Paella sem estoque no CD' },
 ]
 
 // Product checks vinculados às visitas históricas
@@ -291,6 +302,55 @@ export const mockProductChecks: ProductCheck[] = [
   { id: 'pc-5-1-6', visitId: 'v-5-1', productId: '6', sku: '239954', available: true, price: 18.90, stock: 28 },
   { id: 'pc-5-1-7', visitId: 'v-5-1', productId: '7', sku: '239960', available: true, price: 25.90, stock: 6 },
   { id: 'pc-5-1-8', visitId: 'v-5-1', productId: '8', sku: '239962', available: true, price: 19.90, stock: 16 },
+]
+
+export interface MockPhoto {
+  id: string
+  storeId: string
+  promotorId: string
+  type: 'before' | 'after'
+  timestamp: string
+  date: string
+  imageUrl: string
+  lat?: number
+  lng?: number
+}
+
+export const mockPhotos: MockPhoto[] = [
+  // Hoje — Maria Silva
+  { id: 'mp-101', storeId: '1', promotorId: '1', type: 'before', timestamp: '07:32', date: today, imageUrl: 'https://picsum.photos/seed/a101/640/480', lat: -19.9334, lng: -43.9383 },
+  { id: 'mp-102', storeId: '1', promotorId: '1', type: 'after',  timestamp: '08:18', date: today, imageUrl: 'https://picsum.photos/seed/b101/640/480', lat: -19.9334, lng: -43.9383 },
+  { id: 'mp-103', storeId: '2', promotorId: '1', type: 'before', timestamp: '08:41', date: today, imageUrl: 'https://picsum.photos/seed/a102/640/480', lat: -19.9248, lng: -43.9701 },
+  { id: 'mp-104', storeId: '2', promotorId: '1', type: 'after',  timestamp: '09:30', date: today, imageUrl: 'https://picsum.photos/seed/b102/640/480', lat: -19.9248, lng: -43.9701 },
+  // Hoje — João Santos
+  { id: 'mp-201', storeId: '1', promotorId: '2', type: 'before', timestamp: '08:00', date: today, imageUrl: 'https://picsum.photos/seed/a201/640/480', lat: -19.9334, lng: -43.9383 },
+  { id: 'mp-202', storeId: '1', promotorId: '2', type: 'after',  timestamp: '08:52', date: today, imageUrl: 'https://picsum.photos/seed/b201/640/480', lat: -19.9334, lng: -43.9383 },
+  { id: 'mp-203', storeId: '2', promotorId: '2', type: 'before', timestamp: '09:10', date: today, imageUrl: 'https://picsum.photos/seed/a202/640/480' },
+  { id: 'mp-204', storeId: '2', promotorId: '2', type: 'after',  timestamp: '09:58', date: today, imageUrl: 'https://picsum.photos/seed/b202/640/480' },
+  // Hoje — Ana Costa
+  { id: 'mp-301', storeId: '3', promotorId: '3', type: 'before', timestamp: '07:47', date: today, imageUrl: 'https://picsum.photos/seed/a301/640/480' },
+  { id: 'mp-302', storeId: '3', promotorId: '3', type: 'after',  timestamp: '08:40', date: today, imageUrl: 'https://picsum.photos/seed/b301/640/480' },
+  { id: 'mp-303', storeId: '6', promotorId: '3', type: 'before', timestamp: '09:00', date: today, imageUrl: 'https://picsum.photos/seed/a302/640/480' },
+  { id: 'mp-304', storeId: '6', promotorId: '3', type: 'after',  timestamp: '09:50', date: today, imageUrl: 'https://picsum.photos/seed/b302/640/480' },
+  // Hoje — Pedro Oliveira
+  { id: 'mp-401', storeId: '5', promotorId: '4', type: 'before', timestamp: '08:31', date: today, imageUrl: 'https://picsum.photos/seed/a401/640/480', lat: -19.9547, lng: -43.9512 },
+  { id: 'mp-402', storeId: '5', promotorId: '4', type: 'after',  timestamp: '09:25', date: today, imageUrl: 'https://picsum.photos/seed/b401/640/480', lat: -19.9547, lng: -43.9512 },
+  // Hoje — Carla Mendes
+  { id: 'mp-501', storeId: '6', promotorId: '5', type: 'before', timestamp: '07:03', date: today, imageUrl: 'https://picsum.photos/seed/a501/640/480' },
+  { id: 'mp-502', storeId: '6', promotorId: '5', type: 'after',  timestamp: '07:55', date: today, imageUrl: 'https://picsum.photos/seed/b501/640/480' },
+  { id: 'mp-503', storeId: '3', promotorId: '5', type: 'before', timestamp: '08:20', date: today, imageUrl: 'https://picsum.photos/seed/a502/640/480' },
+  { id: 'mp-504', storeId: '3', promotorId: '5', type: 'after',  timestamp: '09:10', date: today, imageUrl: 'https://picsum.photos/seed/b502/640/480' },
+  // Ontem — Maria Silva
+  { id: 'mp-y101', storeId: '3', promotorId: '1', type: 'before', timestamp: '08:10', date: yesterday, imageUrl: 'https://picsum.photos/seed/ay101/640/480', lat: -19.8938, lng: -43.9445 },
+  { id: 'mp-y102', storeId: '3', promotorId: '1', type: 'after',  timestamp: '09:05', date: yesterday, imageUrl: 'https://picsum.photos/seed/by101/640/480' },
+  { id: 'mp-y103', storeId: '5', promotorId: '1', type: 'before', timestamp: '11:00', date: yesterday, imageUrl: 'https://picsum.photos/seed/ay102/640/480', lat: -19.9547, lng: -43.9512 },
+  { id: 'mp-y104', storeId: '5', promotorId: '1', type: 'after',  timestamp: '11:50', date: yesterday, imageUrl: 'https://picsum.photos/seed/by102/640/480' },
+  // Ontem — João Santos
+  { id: 'mp-y201', storeId: '1', promotorId: '2', type: 'before', timestamp: '08:05', date: yesterday, imageUrl: 'https://picsum.photos/seed/ay201/640/480', lat: -19.9334, lng: -43.9383 },
+  { id: 'mp-y202', storeId: '1', promotorId: '2', type: 'after',  timestamp: '08:58', date: yesterday, imageUrl: 'https://picsum.photos/seed/by201/640/480' },
+  // Ontem — Carla Mendes
+  { id: 'mp-y501', storeId: '3', promotorId: '5', type: 'before', timestamp: '07:15', date: yesterday, imageUrl: 'https://picsum.photos/seed/ay501/640/480' },
+  { id: 'mp-y502', storeId: '3', promotorId: '5', type: 'after',  timestamp: '08:05', date: yesterday, imageUrl: 'https://picsum.photos/seed/by501/640/480' },
 ]
 
 export const dashboardStats = {

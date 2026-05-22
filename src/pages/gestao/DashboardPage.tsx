@@ -14,10 +14,29 @@ type FilterTab = 'agenda' | 'nao_acessaram' | 'online' | 'offline'
 
 export default function DashboardPage() {
   const navigate = useNavigate()
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
+  const todayStr = new Date().toISOString().split('T')[0]
+  const [startDate, setStartDate] = useState(todayStr)
+  const [endDate, setEndDate] = useState(todayStr)
   const [selectedRegional, setSelectedRegional] = useState('all')
   const [activeTab, setActiveTab] = useState<FilterTab>('agenda')
   const [exporting, setExporting] = useState(false)
+
+  const activePreset = useMemo(() => {
+    const t = new Date().toISOString().split('T')[0]
+    if (startDate === t && endDate === t) return 'today'
+    const week = new Date(Date.now() - 6 * 86400000).toISOString().split('T')[0]
+    if (startDate === week && endDate === t) return 'week'
+    const month = new Date(Date.now() - 29 * 86400000).toISOString().split('T')[0]
+    if (startDate === month && endDate === t) return 'month'
+    return null
+  }, [startDate, endDate])
+
+  const applyPreset = (preset: 'today' | 'week' | 'month') => {
+    const end = new Date().toISOString().split('T')[0]
+    if (preset === 'today') { setStartDate(end); setEndDate(end) }
+    else if (preset === 'week') { setStartDate(new Date(Date.now() - 6 * 86400000).toISOString().split('T')[0]); setEndDate(end) }
+    else { setStartDate(new Date(Date.now() - 29 * 86400000).toISOString().split('T')[0]); setEndDate(end) }
+  }
 
   const filteredPromotores = useMemo(() => {
     return mockPromotores
@@ -34,18 +53,18 @@ export default function DashboardPage() {
   }, [activeTab, selectedRegional])
 
   const stats = useMemo(() => {
-    const byRegional = selectedRegional === 'all'
-      ? mockPromotores
-      : mockPromotores.filter(p => p.regional === selectedRegional)
-    const programadas = byRegional.reduce((s, p) => s + p.visitsTotal, 0)
-    const executadas = byRegional.reduce((s, p) => s + p.visitsCompleted, 0)
-    const justificadas = mockAllVisits.filter(v =>
-      v.status === 'justified' &&
-      (selectedRegional === 'all' || mockPromotores.find(p => p.id === v.promotorId)?.regional === selectedRegional)
-    ).length
+    const rangeVisits = mockAllVisits.filter(v => {
+      const dateOk = v.date >= startDate && v.date <= endDate
+      const regionalOk = selectedRegional === 'all' ||
+        mockPromotores.find(p => p.id === v.promotorId)?.regional === selectedRegional
+      return dateOk && regionalOk
+    })
+    const programadas = rangeVisits.length
+    const executadas = rangeVisits.filter(v => v.status === 'completed').length
+    const justificadas = rangeVisits.filter(v => v.status === 'justified').length
     const pct = programadas ? Math.round((executadas / programadas) * 100) : 0
     return { programadas, executadas, justificadas, pct }
-  }, [selectedRegional])
+  }, [startDate, endDate, selectedRegional])
 
   const pieData = [
     { name: 'Executadas', value: stats.executadas, color: '#22C55E' },
@@ -60,7 +79,7 @@ export default function DashboardPage() {
   const handleExport = async () => {
     setExporting(true)
     try {
-      await exportRelatorioGestao(mockAllVisits, mockProductChecks, selectedDate)
+      await exportRelatorioGestao(mockAllVisits, mockProductChecks, startDate, endDate)
     } finally {
       setExporting(false)
     }
@@ -74,34 +93,71 @@ export default function DashboardPage() {
           <div className="flex items-center gap-3 mb-2">
             <h1 className="text-2xl font-bold text-foreground">Relatório Diário de Execução</h1>
           </div>
-          <p className="text-muted-foreground">{formatDate(selectedDate)}</p>
+          <p className="text-muted-foreground">
+            {startDate === endDate
+              ? formatDate(startDate)
+              : `${startDate.split('-').reverse().join('/')} — ${endDate.split('-').reverse().join('/')}`}
+          </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <select
-            value={selectedRegional}
-            onChange={(e) => setSelectedRegional(e.target.value)}
-            className="px-4 py-2.5 rounded-lg border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
-          >
-            <option value="all">Todas as regionais</option>
-            {regionais.map(r => <option key={r} value={r}>{r}</option>)}
-          </select>
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-2">
+            {([
+              { id: 'today', label: 'Hoje' },
+              { id: 'week',  label: '7 dias' },
+              { id: 'month', label: '30 dias' },
+            ] as const).map(p => (
+              <button
+                key={p.id}
+                onClick={() => applyPreset(p.id)}
+                className={cn(
+                  'px-3 py-1.5 rounded-lg text-xs font-medium transition-colors',
+                  activePreset === p.id
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                )}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
 
-          <input
-            type="date"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-            className="px-4 py-2.5 rounded-lg border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
-          />
+          <div className="flex flex-wrap items-center gap-3">
+            <select
+              value={selectedRegional}
+              onChange={(e) => setSelectedRegional(e.target.value)}
+              className="px-4 py-2.5 rounded-lg border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+            >
+              <option value="all">Todas as regionais</option>
+              {regionais.map(r => <option key={r} value={r}>{r}</option>)}
+            </select>
 
-          <button
-            onClick={handleExport}
-            disabled={exporting}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
-          >
-            <Download className={cn('w-4 h-4', exporting && 'animate-spin')} />
-            {exporting ? 'Geocodificando...' : 'Exportar Excel'}
-          </button>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground whitespace-nowrap">De</span>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="px-3 py-2 rounded-lg border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+              />
+              <span className="text-sm text-muted-foreground whitespace-nowrap">Até</span>
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="px-3 py-2 rounded-lg border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+              />
+            </div>
+
+            <button
+              onClick={handleExport}
+              disabled={exporting}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+            >
+              <Download className={cn('w-4 h-4', exporting && 'animate-spin')} />
+              {exporting ? 'Geocodificando...' : 'Exportar Excel'}
+            </button>
+          </div>
         </div>
       </div>
 
