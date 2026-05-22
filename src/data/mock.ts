@@ -18,12 +18,12 @@ export const mockProducts: Product[] = [
 ]
 
 export const mockStores: Store[] = [
-  { id: '1', name: 'SUPER NOSSO 433', address: 'Gonçalves Dias, 687', regional: 'BH Centro', productIds: ['1', '2', '3'] },
-  { id: '2', name: 'EPA 476', address: 'Av. São Luiz, 234', regional: 'BH Centro', productIds: ['1', '2', '3', '4', '5'] },
-  { id: '3', name: 'EPA 512', address: 'Rua Vitório Marçola, 153', regional: 'BH Norte', productIds: ['1', '3', '6', '8'] },
-  { id: '4', name: 'SUPER NOSSO 289', address: 'Av. Prof. Mário Werneck, 1685', regional: 'BH Oeste', productIds: ['1', '2', '4', '6', '7', '8'] },
-  { id: '5', name: 'BH SHOPPING 601', address: 'Rod. BR-356, 3049 – Belvedere', regional: 'BH Sul', productIds: ['1', '2', '3', '4', '5', '6', '7', '8'] },
-  { id: '6', name: 'EPA 347', address: 'Av. dos Engenheiros, 1280', regional: 'BH Leste', productIds: ['2', '4', '6'] },
+  { id: '1', name: 'SUPER NOSSO 433', address: 'Gonçalves Dias, 687', regional: 'BH Centro', productIds: ['1', '2', '3'], lat: -19.9334, lng: -43.9383 },
+  { id: '2', name: 'EPA 476', address: 'Av. São Luiz, 234', regional: 'BH Centro', productIds: ['1', '2', '3', '4', '5'], lat: -19.9248, lng: -43.9701 },
+  { id: '3', name: 'EPA 512', address: 'Rua Vitório Marçola, 153', regional: 'BH Norte', productIds: ['1', '3', '6', '8'], lat: -19.8938, lng: -43.9445 },
+  { id: '4', name: 'SUPER NOSSO 289', address: 'Av. Prof. Mário Werneck, 1685', regional: 'BH Oeste', productIds: ['1', '2', '4', '6', '7', '8'], lat: -19.9189, lng: -43.9876 },
+  { id: '5', name: 'BH SHOPPING 601', address: 'Rod. BR-356, 3049 – Belvedere', regional: 'BH Sul', productIds: ['1', '2', '3', '4', '5', '6', '7', '8'], lat: -19.9547, lng: -43.9512 },
+  { id: '6', name: 'EPA 347', address: 'Av. dos Engenheiros, 1280', regional: 'BH Leste', productIds: ['2', '4', '6'], lat: -19.9012, lng: -43.9134 },
 ]
 
 export const mockPromotores: Promotor[] = [

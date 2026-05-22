@@ -22,6 +22,8 @@ export interface Store {
   address: string
   regional: string
   productIds: string[]
+  lat?: number
+  lng?: number
 }
 
 export interface Product {

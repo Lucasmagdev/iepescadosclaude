@@ -1,10 +1,44 @@
+import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { MapPin, Clock, CheckCircle2, ChevronRight, Play } from 'lucide-react'
+import { MapPin, CheckCircle2, ChevronRight, Play, Navigation, Target, Clock } from 'lucide-react'
 import { useVisitStore } from '@/store/visits'
 import { useAuthStore } from '@/store/auth'
 import { mockStores } from '@/data/mock'
-import { formatDate } from '@/lib/utils'
 import { cn } from '@/lib/utils'
+
+const NEARBY_RADIUS = 500 // metros
+// Localização demo: perto de SUPER NOSSO 289 (Av. Prof. Mário Werneck) — ~90m de distância
+const DEMO_LOCATION = { lat: -19.9195, lng: -43.9870 }
+
+function haversine(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371000
+  const toRad = (d: number) => d * Math.PI / 180
+  const φ1 = toRad(lat1), φ2 = toRad(lat2)
+  const Δφ = toRad(lat2 - lat1), Δλ = toRad(lng2 - lng1)
+  const a = Math.sin(Δφ / 2) ** 2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) ** 2
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+}
+
+function formatDist(m: number) {
+  return m < 1000 ? `${Math.round(m)}m` : `${(m / 1000).toFixed(1)}km`
+}
+
+function getWeekRange() {
+  const now = new Date()
+  const day = now.getDay()
+  const monday = new Date(now)
+  monday.setDate(now.getDate() - (day === 0 ? 6 : day - 1))
+  const sunday = new Date(monday)
+  sunday.setDate(monday.getDate() + 6)
+  return { monday, sunday }
+}
+
+function greeting() {
+  const h = new Date().getHours()
+  if (h < 12) return 'Bom dia'
+  if (h < 18) return 'Boa tarde'
+  return 'Boa noite'
+}
 
 export default function RoteiroPage() {
   const navigate = useNavigate()
@@ -12,22 +46,56 @@ export default function RoteiroPage() {
   const updateVisitStatus = useVisitStore((s) => s.updateVisitStatus)
   const user = useAuthStore((s) => s.user)
 
-  const today = new Date()
-  const todayVisits = visits.filter(v => v.date === today.toISOString().split('T')[0])
-  const completed = todayVisits.filter(v => v.status === 'completed')
-  const inProgress = todayVisits.filter(v => v.status === 'in_progress')
-  const pct = todayVisits.length ? Math.round((completed.length / todayVisits.length) * 100) : 0
+  const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null)
+  const [usingDemo, setUsingDemo] = useState(false)
+
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      setLocation(DEMO_LOCATION)
+      setUsingDemo(true)
+      return
+    }
+    const id = navigator.geolocation.watchPosition(
+      (pos) => setLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      () => { setLocation(DEMO_LOCATION); setUsingDemo(true) },
+      { enableHighAccuracy: true, maximumAge: 30000, timeout: 8000 }
+    )
+    return () => navigator.geolocation.clearWatch(id)
+  }, [])
+
+  const completed = visits.filter(v => v.status === 'completed')
+  const inProgress = visits.filter(v => v.status === 'in_progress')
+  const pct = visits.length ? Math.round((completed.length / visits.length) * 100) : 0
+  const { monday, sunday } = getWeekRange()
+
+  const weekLabel = `${monday.toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' })} — ${sunday.toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' })}`
+
+  // Calcula distância e ordena: in_progress > nearby pending > pending por dist > completed
+  const sortedVisits = useMemo(() => {
+    return visits
+      .map(v => {
+        const store = mockStores.find(s => s.id === v.storeId)
+        const dist = location && store?.lat != null && store?.lng != null
+          ? haversine(location.lat, location.lng, store.lat, store.lng)
+          : null
+        const nearby = dist !== null && dist <= NEARBY_RADIUS && v.status === 'pending'
+        return { visit: v, store, dist, nearby }
+      })
+      .sort((a, b) => {
+        if (a.visit.status === 'in_progress') return -1
+        if (b.visit.status === 'in_progress') return 1
+        if (a.nearby && !b.nearby) return -1
+        if (b.nearby && !a.nearby) return 1
+        if (a.visit.status === 'completed' && b.visit.status !== 'completed') return 1
+        if (b.visit.status === 'completed' && a.visit.status !== 'completed') return -1
+        if (a.dist !== null && b.dist !== null) return a.dist - b.dist
+        return 0
+      })
+  }, [visits, location])
 
   const handleStartVisit = (visitId: string) => {
     updateVisitStatus(visitId, 'in_progress')
     navigate(`/promotor/visita/${visitId}`)
-  }
-
-  const greeting = () => {
-    const h = new Date().getHours()
-    if (h < 12) return 'Bom dia'
-    if (h < 18) return 'Boa tarde'
-    return 'Boa noite'
   }
 
   return (
@@ -36,10 +104,20 @@ export default function RoteiroPage() {
       <div className="pt-2">
         <p className="text-muted-foreground text-sm">{greeting()},</p>
         <h1 className="text-2xl font-bold text-foreground">{user?.name?.split(' ')[0] ?? 'Promotor'}</h1>
-        <p className="text-xs text-muted-foreground mt-0.5">{formatDate(today)}</p>
       </div>
 
-      {/* Progress Summary */}
+      {/* GPS status */}
+      {usingDemo && (
+        <div
+          className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs"
+          style={{ background: 'rgba(234,179,8,0.08)', border: '1px solid rgba(234,179,8,0.25)' }}
+        >
+          <Navigation className="w-3.5 h-3.5 text-yellow-600 shrink-0" />
+          <span className="text-yellow-700">Localização simulada — GPS não disponível neste dispositivo</span>
+        </div>
+      )}
+
+      {/* Week Progress Card */}
       <div
         className="rounded-2xl p-5 relative overflow-hidden"
         style={{
@@ -49,19 +127,22 @@ export default function RoteiroPage() {
       >
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Progresso hoje</p>
-            <p className="text-3xl font-bold text-foreground">
-              {completed.length}<span className="text-lg text-muted-foreground font-normal">/{todayVisits.length}</span>
+            <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+              Roteiro da semana
             </p>
-            <p className="text-sm text-muted-foreground mt-0.5">visitas concluídas</p>
+            <p className="text-3xl font-bold text-foreground">
+              {completed.length}
+              <span className="text-lg text-muted-foreground font-normal">/{visits.length}</span>
+            </p>
+            <p className="text-sm text-muted-foreground mt-0.5">lojas visitadas</p>
+            <p className="text-xs text-muted-foreground/60 mt-1">{weekLabel}</p>
           </div>
           <div className="relative w-20 h-20">
             <svg className="w-20 h-20 -rotate-90" viewBox="0 0 80 80">
-              <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="8" />
+              <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(232,100,42,0.12)" strokeWidth="8" />
               <circle
                 cx="40" cy="40" r="34" fill="none"
-                stroke="#E8642A" strokeWidth="8"
-                strokeLinecap="round"
+                stroke="#E8642A" strokeWidth="8" strokeLinecap="round"
                 strokeDasharray={`${2 * Math.PI * 34}`}
                 strokeDashoffset={`${2 * Math.PI * 34 * (1 - pct / 100)}`}
                 style={{ transition: 'stroke-dashoffset 0.6s ease' }}
@@ -83,15 +164,7 @@ export default function RoteiroPage() {
 
       {/* Visit List */}
       <div className="space-y-3">
-        {todayVisits.length === 0 && (
-          <div className="text-center py-16">
-            <MapPin className="w-12 h-12 mx-auto text-muted-foreground/30 mb-3" />
-            <p className="text-muted-foreground">Nenhuma visita agendada para hoje</p>
-          </div>
-        )}
-
-        {todayVisits.map((visit, idx) => {
-          const store = mockStores.find(s => s.id === visit.storeId)
+        {sortedVisits.map(({ visit, store, dist, nearby }) => {
           if (!store) return null
           const isDone = visit.status === 'completed'
           const isActive = visit.status === 'in_progress'
@@ -99,42 +172,64 @@ export default function RoteiroPage() {
           return (
             <div
               key={visit.id}
-              className={cn(
-                'rounded-2xl border p-4 transition-all',
-                isDone && 'opacity-60',
-                isActive && 'border-primary/40',
-              )}
+              className={cn('rounded-2xl border p-4 transition-all', isDone && 'opacity-55')}
               style={{
-                background: isActive ? '#FFF5F0' : 'var(--card)',
-                borderColor: isActive ? '#E8642A' : undefined,
-                borderWidth: isActive ? 2 : 1,
+                background: isActive ? '#FFF5F0' : nearby ? 'rgba(34,197,94,0.04)' : 'var(--card)',
+                borderColor: isActive ? '#E8642A' : nearby ? 'rgba(34,197,94,0.45)' : undefined,
+                borderWidth: isActive || nearby ? 2 : 1,
               }}
             >
               <div className="flex items-start gap-3">
-                {/* Sequence badge */}
+                {/* Icon badge */}
                 <div className={cn(
-                  'w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold shrink-0 mt-0.5',
-                  isDone
-                    ? 'bg-success/15 text-success'
-                    : isActive
-                    ? 'bg-primary/20 text-primary'
-                    : 'bg-muted text-muted-foreground'
+                  'w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5',
+                  isDone   ? 'bg-success/12 text-success'
+                  : isActive ? 'bg-primary/20 text-primary'
+                  : nearby   ? 'bg-success/15 text-success'
+                  : 'bg-muted text-muted-foreground'
                 )}>
-                  {isDone ? <CheckCircle2 className="w-5 h-5" /> : idx + 1}
+                  {isDone    ? <CheckCircle2 className="w-5 h-5" />
+                   : nearby  ? <Target className="w-4 h-4" />
+                   : <MapPin className="w-4 h-4" />}
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <h3 className={cn(
-                    'font-semibold truncate',
-                    isDone ? 'text-muted-foreground line-through' : 'text-foreground'
-                  )}>
-                    {store.name}
-                  </h3>
-                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-0.5">
-                    <MapPin className="w-3 h-3 shrink-0" />
-                    <span className="truncate">{store.address}</span>
+                  {/* Name + nearby badge */}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h3 className={cn(
+                      'font-semibold',
+                      isDone ? 'text-muted-foreground line-through' : 'text-foreground'
+                    )}>
+                      {store.name}
+                    </h3>
+                    {nearby && (
+                      <span
+                        className="flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full text-success"
+                        style={{ background: 'rgba(34,197,94,0.14)' }}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse inline-block" />
+                        DISPONÍVEL
+                      </span>
+                    )}
                   </div>
 
+                  {/* Address + distance */}
+                  <div className="flex items-center gap-3 mt-0.5 flex-wrap">
+                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <MapPin className="w-3 h-3 shrink-0" />
+                      <span className="truncate max-w-[150px]">{store.address}</span>
+                    </span>
+                    {dist !== null && (
+                      <span className={cn(
+                        'text-xs font-semibold',
+                        nearby ? 'text-success' : 'text-muted-foreground'
+                      )}>
+                        {formatDist(dist)}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Completed times */}
                   {isDone && visit.checkInTime && visit.checkOutTime && (
                     <div className="flex items-center gap-1.5 text-xs text-success mt-1.5">
                       <Clock className="w-3 h-3" />
@@ -144,25 +239,37 @@ export default function RoteiroPage() {
                 </div>
               </div>
 
+              {/* Action button */}
               {!isDone && (
                 <button
                   onClick={() => handleStartVisit(visit.id)}
                   className={cn(
-                    'mt-3 w-full flex items-center justify-center gap-2 py-3 px-4 font-semibold rounded-xl transition-all text-sm',
-                    isActive
-                      ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                      : 'bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary'
+                    'mt-3 w-full flex items-center justify-center gap-2 py-3 px-4 font-semibold rounded-xl transition-all text-sm'
                   )}
+                  style={
+                    isActive ? { background: '#E8642A', color: '#fff' }
+                    : nearby  ? { background: 'rgba(34,197,94,0.14)', border: '1.5px solid rgba(34,197,94,0.4)', color: '#16a34a' }
+                    : { background: 'var(--muted)', color: 'var(--muted-foreground)' }
+                  }
                 >
                   {isActive ? (
                     <>
-                      <span className="w-2 h-2 rounded-full bg-primary-foreground animate-pulse" />
+                      <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
                       Continuar Visita
+                    </>
+                  ) : nearby ? (
+                    <>
+                      <Target className="w-4 h-4" />
+                      Iniciar Visita — {formatDist(dist!)}
+                      <ChevronRight className="w-4 h-4 ml-auto" />
                     </>
                   ) : (
                     <>
                       <Play className="w-4 h-4" />
                       Iniciar Visita
+                      {dist !== null && (
+                        <span className="ml-1 text-xs opacity-60">{formatDist(dist)}</span>
+                      )}
                       <ChevronRight className="w-4 h-4 ml-auto" />
                     </>
                   )}
