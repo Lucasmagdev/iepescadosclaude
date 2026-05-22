@@ -25,6 +25,13 @@ export class IEPescadosDB extends Dexie {
       products: 'id, sku',
       syncQueue: '++id, type, synced, timestamp'
     })
+    this.version(2).stores({
+      visits: 'id, storeId, promotorId, date, status',
+      productChecks: 'id, visitId, productId',
+      stores: 'id, regional',
+      products: 'id, sku',
+      syncQueue: '++id, type, synced, timestamp'
+    }).upgrade(tx => tx.table('visits').clear().then(() => tx.table('productChecks').clear()))
   }
 }
 

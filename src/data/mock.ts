@@ -164,11 +164,7 @@ export const mockVisits: Visit[] = [
     occurrenceType: 'Preço divergente',
     occurrenceNote: 'Camarão 18/26 marcado R$16,90 na prateleira, sistema R$14,50',
   },
-  {
-    id: 'v-c3', storeId: '3', promotorId: 'current', date: today, status: 'in_progress',
-    checkInTime: '10:28',
-    checkInLat: -19.8938, checkInLng: -43.9445,
-  },
+  { id: 'v-c3', storeId: '3', promotorId: 'current', date: today, status: 'pending' },
   { id: 'v-c4', storeId: '4',  promotorId: 'current', date: today, status: 'pending' },
   { id: 'v-c5', storeId: '5',  promotorId: 'current', date: today, status: 'pending' },
   { id: 'v-c6', storeId: '11', promotorId: 'current', date: today, status: 'pending' },
