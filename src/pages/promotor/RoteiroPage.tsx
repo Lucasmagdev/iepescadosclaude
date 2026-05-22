@@ -6,7 +6,7 @@ import { useAuthStore } from '@/store/auth'
 import { mockStores } from '@/data/mock'
 import { cn } from '@/lib/utils'
 
-const NEARBY_RADIUS = 500 // metros
+const NEARBY_RADIUS = 4000 // metros
 // Localização demo: perto de SUPER NOSSO 289 (Av. Prof. Mário Werneck) — ~90m de distância
 const DEMO_LOCATION = { lat: -19.9195, lng: -43.9870 }
 
