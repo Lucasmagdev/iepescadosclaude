@@ -36,7 +36,7 @@ export default function LoginPage() {
   return (
     <>
       <style>{`
-        .login-ocean {
+        .login-page {
           min-height: 100vh;
           display: flex;
           align-items: center;
@@ -44,101 +44,62 @@ export default function LoginPage() {
           padding: 24px;
           position: relative;
           overflow: hidden;
-          background:
-            radial-gradient(ellipse at 50% 0%, rgba(28,91,122,0.7) 0%, transparent 55%),
-            radial-gradient(ellipse at 20% 80%, rgba(14,50,80,0.5) 0%, transparent 45%),
-            linear-gradient(180deg, #071525 0%, #07111d 55%, #050e18 100%);
+          background: #FFFAF7;
         }
-        .login-sea {
-          position: absolute; inset: 0; pointer-events: none; opacity: 0.55;
-          background:
-            repeating-linear-gradient(108deg, rgba(255,255,255,0.055) 0 1px, transparent 1px 30px),
-            repeating-linear-gradient(22deg, rgba(232,100,42,0.045) 0 1px, transparent 1px 44px);
-          filter: blur(0.5px);
-          transform: scale(1.15) rotate(-3deg);
+        .login-blob-top {
+          position: absolute; top: -20%; right: -10%;
+          width: 55vw; height: 55vw; max-width: 400px; max-height: 400px;
+          border-radius: 50%; pointer-events: none;
+          background: radial-gradient(circle, rgba(232,100,42,0.13) 0%, transparent 70%);
         }
-        .login-rays {
-          position: absolute;
-          top: -20%;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 120%;
-          height: 80%;
-          pointer-events: none;
-          background:
-            conic-gradient(from -15deg at 50% 0%,
-              transparent 0deg,
-              rgba(255,255,255,0.028) 4deg,
-              transparent 8deg,
-              transparent 16deg,
-              rgba(255,255,255,0.022) 20deg,
-              transparent 24deg,
-              transparent 35deg,
-              rgba(255,255,255,0.018) 38deg,
-              transparent 42deg,
-              transparent 52deg,
-              rgba(255,255,255,0.025) 56deg,
-              transparent 60deg
-            );
-          filter: blur(8px);
-          opacity: 0.8;
-        }
-        .login-glow {
-          position: absolute;
-          width: 50%;
-          height: 40%;
-          top: -5%;
-          left: 25%;
-          pointer-events: none;
-          background: radial-gradient(ellipse, rgba(232,100,42,0.15) 0%, rgba(100,180,220,0.08) 50%, transparent 70%);
-          filter: blur(30px);
-        }
-        .login-vignette {
-          position: absolute; inset: 0; pointer-events: none;
-          background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(3,7,12,0.5) 100%);
+        .login-blob-bottom {
+          position: absolute; bottom: -15%; left: -10%;
+          width: 45vw; height: 45vw; max-width: 340px; max-height: 340px;
+          border-radius: 50%; pointer-events: none;
+          background: radial-gradient(circle, rgba(243,178,60,0.12) 0%, transparent 70%);
         }
         .login-card {
           position: relative;
           width: 100%;
           max-width: 380px;
-          background: rgba(7, 18, 30, 0.72);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: #ffffff;
+          border: 1px solid #E5E5E5;
           border-radius: 20px;
           padding: 36px 28px;
-          box-shadow: 0 8px 48px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+          box-shadow: 0 4px 32px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
         }
         .login-input {
           width: 100%;
           padding: 12px 16px;
           border-radius: 12px;
-          border: 1px solid rgba(255,255,255,0.12);
-          background: rgba(255,255,255,0.06);
-          color: #fff;
+          border: 1px solid #E5E5E5;
+          background: #FAFAFA;
+          color: #1A1A1A;
           font-size: 15px;
           outline: none;
           transition: border-color 0.2s, box-shadow 0.2s;
+          box-sizing: border-box;
         }
-        .login-input::placeholder { color: rgba(255,255,255,0.35); }
+        .login-input::placeholder { color: #A3A3A3; }
         .login-input:focus {
-          border-color: rgba(232,100,42,0.6);
-          box-shadow: 0 0 0 3px rgba(232,100,42,0.15);
+          border-color: #E8642A;
+          box-shadow: 0 0 0 3px rgba(232,100,42,0.12);
+          background: #ffffff;
         }
-        .login-input.error { border-color: rgba(239,68,68,0.6); }
-        .login-label { color: rgba(255,255,255,0.7); font-size: 13px; font-weight: 500; display: block; margin-bottom: 6px; }
-        .login-error { color: #f87171; font-size: 12px; margin-top: 4px; }
+        .login-input.error { border-color: #EF4444; }
+        .login-label { color: #525252; font-size: 13px; font-weight: 500; display: block; margin-bottom: 6px; }
+        .login-error { color: #EF4444; font-size: 12px; margin-top: 4px; }
         .login-role-btn {
           flex: 1;
           padding: 14px 8px;
           border-radius: 12px;
-          border: 2px solid rgba(255,255,255,0.1);
-          background: rgba(255,255,255,0.04);
-          color: rgba(255,255,255,0.6);
+          border: 2px solid #E5E5E5;
+          background: #FAFAFA;
+          color: #A3A3A3;
           font-size: 13px;
           font-weight: 500;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all 0.18s;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -146,12 +107,13 @@ export default function LoginPage() {
         }
         .login-role-btn.active {
           border-color: #E8642A;
-          background: rgba(232,100,42,0.12);
-          color: #fff;
+          background: #FFF5F0;
+          color: #E8642A;
         }
         .login-role-btn:not(.active):hover {
-          border-color: rgba(255,255,255,0.2);
-          background: rgba(255,255,255,0.07);
+          border-color: #D4D4D4;
+          background: #F5F5F5;
+          color: #525252;
         }
         .login-submit {
           width: 100%;
@@ -164,33 +126,32 @@ export default function LoginPage() {
           border: none;
           cursor: pointer;
           transition: opacity 0.2s, transform 0.1s;
+          box-shadow: 0 2px 12px rgba(232,100,42,0.3);
         }
         .login-submit:hover:not(:disabled) { opacity: 0.92; transform: translateY(-1px); }
-        .login-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+        .login-submit:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
         .login-creds {
-          border: 1px solid rgba(255,255,255,0.08);
+          border: 1px solid #F0F0F0;
           border-radius: 12px;
           padding: 14px;
-          background: rgba(255,255,255,0.03);
+          background: #FAFAFA;
         }
         .login-creds-item {
           border-radius: 8px;
           padding: 10px 12px;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.06);
+          background: #ffffff;
+          border: 1px solid #E5E5E5;
         }
       `}</style>
 
-      <div className="login-ocean">
-        <div className="login-sea" />
-        <div className="login-rays" />
-        <div className="login-glow" />
-        <div className="login-vignette" />
+      <div className="login-page">
+        <div className="login-blob-top" />
+        <div className="login-blob-bottom" />
 
         <div className="login-card">
           {/* Logo */}
           <div className="flex justify-center mb-8">
-            <img src="/logo.png" alt="IE Pescados" style={{ height: 52, width: 'auto', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+            <img src="/logo.png" alt="IE Pescados" style={{ height: 48, width: 'auto', objectFit: 'contain' }} />
           </div>
 
           {/* Role Selector */}
@@ -250,24 +211,24 @@ export default function LoginPage() {
 
           {/* Credenciais de Teste */}
           <div className="login-creds" style={{ marginTop: 24 }}>
-            <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 10 }}>
+            <p style={{ color: '#A3A3A3', fontSize: 11, textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: 10 }}>
               Credenciais de Teste
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
               <div className="login-creds-item">
-                <p style={{ color: '#fff', fontWeight: 600, fontSize: 12, marginBottom: 4 }}>Promotor</p>
-                <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 11 }}>promotor@ie.com</p>
-                <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 11 }}>123456</p>
+                <p style={{ color: '#E8642A', fontWeight: 600, fontSize: 12, marginBottom: 4 }}>Promotor</p>
+                <p style={{ color: '#737373', fontSize: 11 }}>promotor@ie.com</p>
+                <p style={{ color: '#737373', fontSize: 11 }}>123456</p>
               </div>
               <div className="login-creds-item">
-                <p style={{ color: '#fff', fontWeight: 600, fontSize: 12, marginBottom: 4 }}>Gestor</p>
-                <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 11 }}>gestor@ie.com</p>
-                <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 11 }}>123456</p>
+                <p style={{ color: '#E8642A', fontWeight: 600, fontSize: 12, marginBottom: 4 }}>Gestor</p>
+                <p style={{ color: '#737373', fontSize: 11 }}>gestor@ie.com</p>
+                <p style={{ color: '#737373', fontSize: 11 }}>123456</p>
               </div>
             </div>
           </div>
 
-          <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: 11, textAlign: 'center', marginTop: 20 }}>
+          <p style={{ color: '#D4D4D4', fontSize: 11, textAlign: 'center', marginTop: 20 }}>
             Gestão de Promotores v1.0
           </p>
         </div>
