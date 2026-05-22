@@ -2,14 +2,14 @@ import { Product, Store, Promotor, Visit } from '../types'
 import { ProductCheck } from '../types'
 
 export const mockProducts: Product[] = [
-  { id: '1', sku: '239957', name: 'Camarão coz. int. 18/26 – pct 180g',         imageUrl: 'https://images.unsplash.com/photo-1565680018434-b5f5c036d628?w=400&q=80' },
-  { id: '2', sku: '239872', name: 'Camarão coz. s/cabeça 36/52 – pct 180g',     imageUrl: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&q=80' },
-  { id: '3', sku: '239961', name: 'Camarão coz. desc. 36/52 – pct 180g',        imageUrl: 'https://images.unsplash.com/photo-1565680018434-b5f5c036d628?w=400&q=80' },
-  { id: '4', sku: '239959', name: 'Camarão coz. desc. 40/60 – pct 300g',        imageUrl: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&q=80' },
-  { id: '5', sku: '239953', name: 'Camarão coz. evis. colinha 25/40 – pct 300g',imageUrl: 'https://images.unsplash.com/photo-1565680018434-b5f5c036d628?w=400&q=80' },
-  { id: '6', sku: '239954', name: 'Camarão cinza desc. eviscerado',              imageUrl: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&q=80' },
-  { id: '7', sku: '239960', name: 'Mix frutos do mar paella',                    imageUrl: 'https://images.unsplash.com/photo-1551248429-40975aa4de74?w=400&q=80' },
-  { id: '8', sku: '239962', name: 'Filé de tilápia',                             imageUrl: 'https://images.unsplash.com/photo-1510130387422-82bed34b37e9?w=400&q=80' },
+  { id: '1', sku: '239957', name: 'Camarão coz. int. 18/26 – pct 180g',          imageUrl: 'https://placehold.co/400x240/FFF5F0/E8642A?text=Camarão+18%2F26&font=montserrat' },
+  { id: '2', sku: '239872', name: 'Camarão coz. s/cabeça 36/52 – pct 180g',      imageUrl: 'https://placehold.co/400x240/FFF5F0/E8642A?text=Camarão+36%2F52+s%2Fcab.&font=montserrat' },
+  { id: '3', sku: '239961', name: 'Camarão coz. desc. 36/52 – pct 180g',         imageUrl: 'https://placehold.co/400x240/FFF5F0/E8642A?text=Camarão+desc.+36%2F52&font=montserrat' },
+  { id: '4', sku: '239959', name: 'Camarão coz. desc. 40/60 – pct 300g',         imageUrl: 'https://placehold.co/400x240/FFF5F0/E8642A?text=Camarão+desc.+40%2F60&font=montserrat' },
+  { id: '5', sku: '239953', name: 'Camarão coz. evis. colinha 25/40 – pct 300g', imageUrl: 'https://placehold.co/400x240/FFF5F0/E8642A?text=Camarão+colinha+25%2F40&font=montserrat' },
+  { id: '6', sku: '239954', name: 'Camarão cinza desc. eviscerado',               imageUrl: 'https://placehold.co/400x240/FFF5F0/E8642A?text=Camarão+Cinza&font=montserrat' },
+  { id: '7', sku: '239960', name: 'Mix frutos do mar paella',                     imageUrl: 'https://placehold.co/400x240/FFF0E0/d4551f?text=Mix+Frutos+do+Mar&font=montserrat' },
+  { id: '8', sku: '239962', name: 'Filé de tilápia',                              imageUrl: 'https://placehold.co/400x240/E8F5F0/1a7a50?text=Filé+de+Tilápia&font=montserrat' },
 ]
 
 export const mockStores: Store[] = [
