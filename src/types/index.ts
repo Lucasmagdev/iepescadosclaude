@@ -21,6 +21,7 @@ export interface Store {
   name: string
   address: string
   regional: string
+  productIds: string[]
 }
 
 export interface Product {

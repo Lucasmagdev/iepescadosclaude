@@ -18,7 +18,8 @@
       "Bash(ls /c/Users/Lucas/iepescados/vite.config* 2>&1 && echo \"---\" && rm -f /c/Users/Lucas/iepescados/package-lock.json && echo \"lock removed\")",
       "Bash(npm install *)",
       "Bash(git commit -m ' *)",
-      "Bash(npm ls *)"
+      "Bash(npm ls *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173)"
     ],
     "additionalDirectories": [
       "C:\\Users\\Lucas\\iepescados"

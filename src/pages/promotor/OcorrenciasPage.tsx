@@ -8,7 +8,7 @@ interface Ocorrencia {
   hora: string
 }
 
-const tipos = ['Produto vencido', 'Falta de estoque', 'Gondola danificada', 'Preço incorreto', 'Outro']
+const tipos = ['Produto vencido', 'Falta de estoque', 'FREEZER danificado', 'Preço incorreto', 'Outro']
 
 export default function OcorrenciasPage() {
   const [ocorrencias, setOcorrencias] = useState<Ocorrencia[]>([])
@@ -35,7 +35,7 @@ export default function OcorrenciasPage() {
   const tipoColors: Record<string, string> = {
     'Produto vencido': 'bg-red-100 text-red-700',
     'Falta de estoque': 'bg-orange-100 text-orange-700',
-    'Gondola danificada': 'bg-yellow-100 text-yellow-700',
+    'FREEZER danificado': 'bg-yellow-100 text-yellow-700',
     'Preço incorreto': 'bg-blue-100 text-blue-700',
     'Outro': 'bg-muted text-muted-foreground',
   }

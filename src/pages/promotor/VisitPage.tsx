@@ -18,7 +18,7 @@ const occurrenceTypes = [
   'Sem ocorrência',
   'Ruptura de produto',
   'Preço divergente',
-  'Sem espaço na gôndola',
+  'Sem espaço no FREEZER',
   'Loja fechada',
   'Produto vencido',
 ]
@@ -135,6 +135,7 @@ export default function VisitPage() {
 
   const visit = visits.find(v => v.id === visitId)
   const store = visit ? mockStores.find(s => s.id === visit.storeId) : null
+  const storeProducts = store ? mockProducts.filter(p => store.productIds.includes(p.id)) : []
 
   const [step, setStep] = useState<VisitStep>('check-in')
   const [currentProductIndex, setCurrentProductIndex] = useState(0)
@@ -146,7 +147,7 @@ export default function VisitPage() {
   const [occurrenceType, setOccurrenceType] = useState('Sem ocorrência')
   const [occurrenceNote, setOccurrenceNote] = useState('')
   const [productChecks, setProductChecks] = useState<ProductCheckData[]>(
-    mockProducts.map(p => ({ productId: p.id, available: null }))
+    () => storeProducts.map(p => ({ productId: p.id, available: null }))
   )
 
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -159,7 +160,7 @@ export default function VisitPage() {
     )
   }
 
-  const currentProduct = mockProducts[currentProductIndex]
+  const currentProduct = storeProducts[currentProductIndex]
   const currentCheck = productChecks[currentProductIndex]
 
   const handlePhotoCapture = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -214,7 +215,7 @@ export default function VisitPage() {
       expiryDate: currentCheck.expiryDate,
       competitorPrice: currentCheck.competitorPrice ? parseFloat(currentCheck.competitorPrice.replace(',', '.')) : undefined,
     })
-    if (currentProductIndex < mockProducts.length - 1) {
+    if (currentProductIndex < storeProducts.length - 1) {
       setCurrentProductIndex(prev => prev + 1)
     } else {
       setStep('occurrence')
@@ -243,7 +244,7 @@ export default function VisitPage() {
   if (step === 'check-in') {
     return (
       <div className="min-h-screen flex flex-col">
-        <PageHeader title={store.name} subtitle="Foto de entrada — ANTES da gôndola" onBack={handleBackToRoteiro} />
+        <PageHeader title={store.name} subtitle="Foto de entrada — ANTES da FREEZER" onBack={handleBackToRoteiro} />
         <StepIndicator current="check-in" />
 
         <div className="flex-1 p-4 flex flex-col gap-6">
@@ -293,7 +294,7 @@ export default function VisitPage() {
                   </div>
                   <div className="text-center">
                     <p className="text-foreground font-semibold">Tirar Foto</p>
-                    <p className="text-muted-foreground text-sm mt-0.5">Enquadre a gôndola completa</p>
+                    <p className="text-muted-foreground text-sm mt-0.5">Enquadre a FREEZER completa</p>
                   </div>
                 </>
               )}
@@ -322,7 +323,7 @@ export default function VisitPage() {
       <div className="min-h-screen flex flex-col">
         <PageHeader
           title={store.name}
-          subtitle={`Produto ${currentProductIndex + 1} de ${mockProducts.length}`}
+          subtitle={`Produto ${currentProductIndex + 1} de ${storeProducts.length}`}
           onBack={() => currentProductIndex > 0 ? setCurrentProductIndex(p => p - 1) : setStep('check-in')}
         />
 
@@ -330,7 +331,7 @@ export default function VisitPage() {
         <div className="h-1 mx-4 mt-1 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
           <div
             className="h-full bg-primary transition-all duration-300 rounded-full"
-            style={{ width: `${((currentProductIndex + 1) / mockProducts.length) * 100}%` }}
+            style={{ width: `${((currentProductIndex + 1) / storeProducts.length) * 100}%` }}
           />
         </div>
 
@@ -430,7 +431,7 @@ export default function VisitPage() {
             className="w-full flex items-center justify-center gap-2 py-4 font-bold rounded-2xl text-primary-foreground transition-all disabled:opacity-40 disabled:cursor-not-allowed text-base"
             style={{ background: isAvailable !== null ? '#E8642A' : undefined }}
           >
-            {currentProductIndex < mockProducts.length - 1 ? 'Próximo Produto' : 'Finalizar Produtos'}
+            {currentProductIndex < storeProducts.length - 1 ? 'Próximo Produto' : 'Finalizar Produtos'}
             <ChevronRight className="w-5 h-5" />
           </button>
         </FixedFooter>
@@ -511,7 +512,7 @@ export default function VisitPage() {
   if (step === 'check-out') {
     return (
       <div className="min-h-screen flex flex-col">
-        <PageHeader title={store.name} subtitle="Foto de saída — DEPOIS da gôndola" onBack={() => setStep('occurrence')} />
+        <PageHeader title={store.name} subtitle="Foto de saída — DEPOIS da FREEZER" onBack={() => setStep('occurrence')} />
         <StepIndicator current="check-out" />
 
         <div className="flex-1 p-4 flex flex-col gap-6">
@@ -558,7 +559,7 @@ export default function VisitPage() {
                   </div>
                   <div className="text-center">
                     <p className="text-foreground font-semibold">Tirar Foto</p>
-                    <p className="text-muted-foreground text-sm mt-0.5">Enquadre a gôndola após execução</p>
+                    <p className="text-muted-foreground text-sm mt-0.5">Enquadre a FREEZER após execução</p>
                   </div>
                 </>
               )}
@@ -611,7 +612,7 @@ export default function VisitPage() {
             </div>
             <div className="rounded-xl p-3 text-center" style={{ background: 'var(--muted)' }}>
               <p className="text-xs text-muted-foreground">Produtos</p>
-              <p className="font-semibold text-foreground">{mockProducts.length}</p>
+              <p className="font-semibold text-foreground">{storeProducts.length}</p>
             </div>
             <div className="rounded-xl p-3 text-center" style={{ background: rupturas > 0 ? 'rgba(239,68,68,0.08)' : 'var(--muted)' }}>
               <p className="text-xs text-muted-foreground">Rupturas</p>

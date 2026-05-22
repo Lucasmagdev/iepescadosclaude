@@ -13,12 +13,12 @@ export const mockProducts: Product[] = [
 ]
 
 export const mockStores: Store[] = [
-  { id: '1', name: 'Super Nosso Savassi', address: 'Gonçalves Dias, 687', regional: 'BH Centro' },
-  { id: '2', name: 'EPA São Luiz', address: 'Av. São Luiz, 234', regional: 'BH Centro' },
-  { id: '3', name: 'EPA Vitório Marçola', address: 'Rua Vitório Marçola, 153', regional: 'BH Norte' },
-  { id: '4', name: 'Super Nosso Buritis', address: 'Av. Prof. Mário Werneck, 1685', regional: 'BH Oeste' },
-  { id: '5', name: 'BH Shopping', address: 'Rod. BR-356, 3049 – Belvedere', regional: 'BH Sul' },
-  { id: '6', name: 'EPA Castelo', address: 'Av. dos Engenheiros, 1280', regional: 'BH Leste' },
+  { id: '1', name: 'SUPER NOSSO 433', address: 'Gonçalves Dias, 687', regional: 'BH Centro', productIds: ['1', '2', '3'] },
+  { id: '2', name: 'EPA 476', address: 'Av. São Luiz, 234', regional: 'BH Centro', productIds: ['1', '2', '3', '4', '5'] },
+  { id: '3', name: 'EPA 512', address: 'Rua Vitório Marçola, 153', regional: 'BH Norte', productIds: ['1', '3', '6', '8'] },
+  { id: '4', name: 'SUPER NOSSO 289', address: 'Av. Prof. Mário Werneck, 1685', regional: 'BH Oeste', productIds: ['1', '2', '4', '6', '7', '8'] },
+  { id: '5', name: 'BH SHOPPING 601', address: 'Rod. BR-356, 3049 – Belvedere', regional: 'BH Sul', productIds: ['1', '2', '3', '4', '5', '6', '7', '8'] },
+  { id: '6', name: 'EPA 347', address: 'Av. dos Engenheiros, 1280', regional: 'BH Leste', productIds: ['2', '4', '6'] },
 ]
 
 export const mockPromotores: Promotor[] = [
@@ -183,8 +183,8 @@ export const mockAllVisits: Visit[] = [
   },
   {
     id: 'v-3-2', storeId: '6', promotorId: '3', date: today, status: 'completed',
-    checkInTime: '09:00', checkOutTime: '09:50', occurrenceType: 'Sem espaço na gôndola',
-    occurrenceNote: 'Gôndola reorganizada pelo supermercado, Mix Paella sem espaço',
+    checkInTime: '09:00', checkOutTime: '09:50', occurrenceType: 'Sem espaço no FREEZER',
+    occurrenceNote: 'FREEZER reorganizado pelo supermercado, Mix Paella sem espaço',
   },
   {
     id: 'v-3-3', storeId: '1', promotorId: '3', date: today, status: 'completed',
