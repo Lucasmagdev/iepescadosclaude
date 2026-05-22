@@ -203,8 +203,8 @@ export const mockAllVisits: Visit[] = [
   },
   {
     id: 'v-3-2', storeId: '6', promotorId: '3', date: today, status: 'completed',
-    checkInTime: '09:00', checkOutTime: '09:50', occurrenceType: 'Sem espaço no FREEZER',
-    occurrenceNote: 'FREEZER reorganizado pelo supermercado, Mix Paella sem espaço',
+    checkInTime: '09:00', checkOutTime: '09:50', occurrenceType: 'Sem espaço no freezer',
+    occurrenceNote: 'Freezer reorganizado pelo supermercado, Mix Paella sem espaço',
   },
   {
     id: 'v-3-3', storeId: '1', promotorId: '3', date: today, status: 'completed',

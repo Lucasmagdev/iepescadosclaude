@@ -18,7 +18,7 @@ const occurrenceTypes = [
   'Sem ocorrência',
   'Ruptura de produto',
   'Preço divergente',
-  'Sem espaço no FREEZER',
+  'Sem espaço no freezer',
   'Loja fechada',
   'Produto vencido',
 ]
@@ -244,7 +244,7 @@ export default function VisitPage() {
   if (step === 'check-in') {
     return (
       <div className="min-h-screen flex flex-col">
-        <PageHeader title={store.name} subtitle="Foto de entrada — ANTES da FREEZER" onBack={handleBackToRoteiro} />
+        <PageHeader title={store.name} subtitle="Foto de entrada — ANTES do freezer" onBack={handleBackToRoteiro} />
         <StepIndicator current="check-in" />
 
         <div className="flex-1 p-4 flex flex-col gap-6">
@@ -294,7 +294,7 @@ export default function VisitPage() {
                   </div>
                   <div className="text-center">
                     <p className="text-foreground font-semibold">Tirar Foto</p>
-                    <p className="text-muted-foreground text-sm mt-0.5">Enquadre a FREEZER completa</p>
+                    <p className="text-muted-foreground text-sm mt-0.5">Enquadre o freezer completo</p>
                   </div>
                 </>
               )}
@@ -520,7 +520,7 @@ export default function VisitPage() {
   if (step === 'check-out') {
     return (
       <div className="min-h-screen flex flex-col">
-        <PageHeader title={store.name} subtitle="Foto de saída — DEPOIS da FREEZER" onBack={() => setStep('occurrence')} />
+        <PageHeader title={store.name} subtitle="Foto de saída — DEPOIS do freezer" onBack={() => setStep('occurrence')} />
         <StepIndicator current="check-out" />
 
         <div className="flex-1 p-4 flex flex-col gap-6">
@@ -567,7 +567,7 @@ export default function VisitPage() {
                   </div>
                   <div className="text-center">
                     <p className="text-foreground font-semibold">Tirar Foto</p>
-                    <p className="text-muted-foreground text-sm mt-0.5">Enquadre a FREEZER após execução</p>
+                    <p className="text-muted-foreground text-sm mt-0.5">Enquadre o freezer após execução</p>
                   </div>
                 </>
               )}
