@@ -15,11 +15,10 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       isAuthenticated: false,
       login: async (email: string, _password: string, role: 'promotor' | 'gestao') => {
-        // Mock authentication - accepts any credentials
         const user: User = {
-          id: role === 'promotor' ? 'promotor-1' : 'gestao-1',
+          id: role === 'promotor' ? 'current' : 'gestao-1',
           email,
-          name: role === 'promotor' ? 'João Promotor' : 'Admin Gestão',
+          name: role === 'promotor' ? 'Ana Costa' : 'Carlos Mendonça',
           role,
         }
         set({ user, isAuthenticated: true })
