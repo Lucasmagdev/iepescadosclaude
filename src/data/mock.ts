@@ -19,12 +19,18 @@ export const mockProducts: Product[] = [
 ]
 
 export const mockStores: Store[] = [
-  { id: '1', name: 'SUPER NOSSO 433', address: 'Gonçalves Dias, 687', regional: 'BH Centro', productIds: ['1', '2', '3'], lat: -19.9334, lng: -43.9383 },
-  { id: '2', name: 'EPA 476', address: 'Av. São Luiz, 234', regional: 'BH Centro', productIds: ['1', '2', '3', '4', '5'], lat: -19.9248, lng: -43.9701 },
-  { id: '3', name: 'EPA 512', address: 'Rua Vitório Marçola, 153', regional: 'BH Norte', productIds: ['1', '3', '6', '8'], lat: -19.8938, lng: -43.9445 },
-  { id: '4', name: 'SUPER NOSSO 289', address: 'Av. Prof. Mário Werneck, 1685', regional: 'BH Oeste', productIds: ['1', '2', '4', '6', '7', '8'], lat: -19.9189, lng: -43.9876 },
-  { id: '5', name: 'BH SHOPPING 601', address: 'Rod. BR-356, 3049 – Belvedere', regional: 'BH Sul', productIds: ['1', '2', '3', '4', '5', '6', '7', '8'], lat: -19.9547, lng: -43.9512 },
-  { id: '6', name: 'EPA 347', address: 'Av. dos Engenheiros, 1280', regional: 'BH Leste', productIds: ['2', '4', '6'], lat: -19.9012, lng: -43.9134 },
+  { id: '1',  name: 'SUPER NOSSO 433',   address: 'Gonçalves Dias, 687',              regional: 'BH Centro', productIds: ['1', '2', '3'],             lat: -19.9334, lng: -43.9383 },
+  { id: '2',  name: 'EPA 476',            address: 'Av. São Luiz, 234',               regional: 'BH Centro', productIds: ['1', '2', '3', '4', '5'],    lat: -19.9248, lng: -43.9701 },
+  { id: '3',  name: 'EPA 512',            address: 'Rua Vitório Marçola, 153',        regional: 'BH Norte',  productIds: ['1', '3', '6', '8'],          lat: -19.8938, lng: -43.9445 },
+  { id: '4',  name: 'SUPER NOSSO 289',   address: 'Av. Prof. Mário Werneck, 1685',   regional: 'BH Oeste',  productIds: ['1', '2', '4', '6', '7', '8'], lat: -19.9189, lng: -43.9876 },
+  { id: '5',  name: 'BH SHOPPING 601',   address: 'Rod. BR-356, 3049 – Belvedere',   regional: 'BH Sul',    productIds: ['1', '2', '3', '4', '5', '6', '7', '8'], lat: -19.9547, lng: -43.9512 },
+  { id: '6',  name: 'EPA 347',            address: 'Av. dos Engenheiros, 1280',       regional: 'BH Leste',  productIds: ['2', '4', '6'],               lat: -19.9012, lng: -43.9134 },
+  { id: '7',  name: 'VERDEMAR 12',        address: 'R. Santa Rita Durão, 159',        regional: 'BH Centro', productIds: ['1', '2', '3', '7'],          lat: -19.9275, lng: -43.9462 },
+  { id: '8',  name: 'BRETAS 145',         address: 'Av. Bernardo Monteiro, 1260',     regional: 'BH Centro', productIds: ['1', '2', '4', '5', '8'],     lat: -19.9202, lng: -43.9598 },
+  { id: '9',  name: 'MERCADINHO SB 48',  address: 'Av. do Contorno, 5876',           regional: 'BH Centro', productIds: ['1', '3', '6'],               lat: -19.9385, lng: -43.9318 },
+  { id: '10', name: 'SUPER NOSSO 178',   address: 'Av. Raja Gabaglia, 3200',         regional: 'BH Oeste',  productIds: ['1', '2', '4', '7', '8'],     lat: -19.9148, lng: -43.9955 },
+  { id: '11', name: 'FORT ATACADISTA 22', address: 'Av. Cristiano Machado, 4800',    regional: 'BH Norte',  productIds: ['1', '2', '3', '4', '5', '6'], lat: -19.8872, lng: -43.9392 },
+  { id: '12', name: 'BRETAS 201',         address: 'Av. Vilarinho, 1300',             regional: 'BH Norte',  productIds: ['1', '3', '5', '8'],          lat: -19.8812, lng: -43.9508 },
 ]
 
 export const mockPromotores: Promotor[] = [
@@ -39,11 +45,11 @@ export const mockPromotores: Promotor[] = [
     networkType: '4G',
     device: 'Samsung Galaxy A54',
     connectionStatus: 'online',
-    completionPct: 100,
+    completionPct: 83,
     visitsCompleted: 5,
-    visitsTotal: 5,
+    visitsTotal: 6,
     photosCount: 18,
-    syncProgress: { completed: 5, total: 5 },
+    syncProgress: { completed: 5, total: 6 },
     lat: -19.9245, lng: -43.9705,
   },
   {
@@ -57,11 +63,11 @@ export const mockPromotores: Promotor[] = [
     networkType: 'WiFi',
     device: 'Motorola G84',
     connectionStatus: 'online',
-    completionPct: 83,
+    completionPct: 71,
     visitsCompleted: 5,
-    visitsTotal: 6,
+    visitsTotal: 7,
     photosCount: 16,
-    syncProgress: { completed: 5, total: 6 },
+    syncProgress: { completed: 5, total: 7 },
     lat: -19.9338, lng: -43.9380,
   },
   {
@@ -75,11 +81,11 @@ export const mockPromotores: Promotor[] = [
     networkType: '4G',
     device: 'iPhone 13',
     connectionStatus: 'online',
-    completionPct: 40,
+    completionPct: 29,
     visitsCompleted: 2,
-    visitsTotal: 5,
+    visitsTotal: 7,
     photosCount: 8,
-    syncProgress: { completed: 2, total: 5 },
+    syncProgress: { completed: 2, total: 7 },
     lat: -19.8940, lng: -43.9448,
   },
   {
@@ -93,11 +99,11 @@ export const mockPromotores: Promotor[] = [
     networkType: '3G',
     device: 'Xiaomi Redmi 12',
     connectionStatus: 'offline',
-    completionPct: 57,
-    visitsCompleted: 4,
-    visitsTotal: 7,
+    completionPct: 63,
+    visitsCompleted: 5,
+    visitsTotal: 8,
     photosCount: 14,
-    syncProgress: { completed: 4, total: 7 },
+    syncProgress: { completed: 5, total: 8 },
     lat: -19.9550, lng: -43.9508,
   },
   {
@@ -111,11 +117,11 @@ export const mockPromotores: Promotor[] = [
     networkType: '4G',
     device: 'Samsung Galaxy A34',
     connectionStatus: 'online',
-    completionPct: 75,
-    visitsCompleted: 3,
-    visitsTotal: 4,
+    completionPct: 67,
+    visitsCompleted: 4,
+    visitsTotal: 6,
     photosCount: 10,
-    syncProgress: { completed: 3, total: 4 },
+    syncProgress: { completed: 4, total: 6 },
     lat: -19.9015, lng: -43.9130,
   },
   {
@@ -163,8 +169,10 @@ export const mockVisits: Visit[] = [
     checkInTime: '10:28',
     checkInLat: -19.8938, checkInLng: -43.9445,
   },
-  { id: 'v-c4', storeId: '4', promotorId: 'current', date: today, status: 'pending' },
-  { id: 'v-c5', storeId: '5', promotorId: 'current', date: today, status: 'pending' },
+  { id: 'v-c4', storeId: '4',  promotorId: 'current', date: today, status: 'pending' },
+  { id: 'v-c5', storeId: '5',  promotorId: 'current', date: today, status: 'pending' },
+  { id: 'v-c6', storeId: '11', promotorId: 'current', date: today, status: 'pending' },
+  { id: 'v-c7', storeId: '12', promotorId: 'current', date: today, status: 'pending' },
 ]
 
 // Visitas históricas de todos promotores (para gestão)
@@ -240,7 +248,25 @@ export const mockAllVisits: Visit[] = [
     checkInTime: '08:20', checkOutTime: '09:10', occurrenceType: 'Preço divergente',
     occurrenceNote: 'Concorrente com promoção agressiva: Camarão Rosa R$11,99',
   },
-  // Lucas Ferreira – sem acesso
+  // Maria Silva — novas lojas
+  { id: 'v-1-5', storeId: '7',  promotorId: '1', date: today, status: 'completed', checkInTime: '13:00', checkOutTime: '13:50', occurrenceType: 'Sem ocorrência' },
+  { id: 'v-1-6', storeId: '8',  promotorId: '1', date: today, status: 'pending' },
+  // João Santos — novas lojas
+  { id: 'v-2-4', storeId: '9',  promotorId: '2', date: today, status: 'completed', checkInTime: '10:30', checkOutTime: '11:20', occurrenceType: 'Sem ocorrência' },
+  { id: 'v-2-5', storeId: '7',  promotorId: '2', date: today, status: 'pending' },
+  // Ana Costa — novas lojas BH Norte
+  { id: 'v-3-5', storeId: '11', promotorId: '3', date: today, status: 'pending' },
+  { id: 'v-3-6', storeId: '12', promotorId: '3', date: today, status: 'pending' },
+  // Pedro Oliveira — novas lojas
+  { id: 'v-4-3', storeId: '5',  promotorId: '4', date: today, status: 'completed', checkInTime: '11:05', checkOutTime: '11:55', occurrenceType: 'Sem ocorrência' },
+  { id: 'v-4-4', storeId: '9',  promotorId: '4', date: today, status: 'pending' },
+  // Carla Mendes — novas lojas
+  { id: 'v-5-3', storeId: '9',  promotorId: '5', date: today, status: 'completed', checkInTime: '09:30', checkOutTime: '10:15', occurrenceType: 'Ruptura de produto', occurrenceNote: 'Filé de tilápia sem estoque' },
+  { id: 'v-5-4', storeId: '7',  promotorId: '5', date: today, status: 'pending' },
+  // Rafael Nunes — novas lojas BH Oeste
+  { id: 'v-6-1', storeId: '4',  promotorId: '6', date: today, status: 'pending' },
+  { id: 'v-6-2', storeId: '10', promotorId: '6', date: today, status: 'pending' },
+  { id: 'v-6-3', storeId: '2',  promotorId: '6', date: today, status: 'pending' },
 
   // ── Ontem (dados históricos para filtro de período) ──────────────────────
   { id: 'v-y-1', storeId: '3', promotorId: '1', date: yesterday, status: 'completed', checkInTime: '08:10', checkOutTime: '09:05', occurrenceType: 'Sem ocorrência', checkInLat: -19.8938, checkInLng: -43.9445 },
