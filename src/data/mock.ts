@@ -324,39 +324,39 @@ export interface MockPhoto {
 
 export const mockPhotos: MockPhoto[] = [
   // Hoje — Maria Silva
-  { id: 'mp-101', storeId: '1', promotorId: '1', type: 'before', timestamp: '07:32', date: today, imageUrl: 'https://picsum.photos/seed/a101/640/480', lat: -19.9334, lng: -43.9383 },
-  { id: 'mp-102', storeId: '1', promotorId: '1', type: 'after',  timestamp: '08:18', date: today, imageUrl: 'https://picsum.photos/seed/b101/640/480', lat: -19.9334, lng: -43.9383 },
-  { id: 'mp-103', storeId: '2', promotorId: '1', type: 'before', timestamp: '08:41', date: today, imageUrl: 'https://picsum.photos/seed/a102/640/480', lat: -19.9248, lng: -43.9701 },
-  { id: 'mp-104', storeId: '2', promotorId: '1', type: 'after',  timestamp: '09:30', date: today, imageUrl: 'https://picsum.photos/seed/b102/640/480', lat: -19.9248, lng: -43.9701 },
+  { id: 'mp-101', storeId: '1', promotorId: '1', type: 'before', timestamp: '07:32', date: today, imageUrl: IMG_SHRIMP_COOKED, lat: -19.9334, lng: -43.9383 },
+  { id: 'mp-102', storeId: '1', promotorId: '1', type: 'after',  timestamp: '08:18', date: today, imageUrl: IMG_SHRIMP_WHOLE,  lat: -19.9334, lng: -43.9383 },
+  { id: 'mp-103', storeId: '2', promotorId: '1', type: 'before', timestamp: '08:41', date: today, imageUrl: IMG_PAELLA,        lat: -19.9248, lng: -43.9701 },
+  { id: 'mp-104', storeId: '2', promotorId: '1', type: 'after',  timestamp: '09:30', date: today, imageUrl: IMG_TILAPIA,       lat: -19.9248, lng: -43.9701 },
   // Hoje — João Santos
-  { id: 'mp-201', storeId: '1', promotorId: '2', type: 'before', timestamp: '08:00', date: today, imageUrl: 'https://picsum.photos/seed/a201/640/480', lat: -19.9334, lng: -43.9383 },
-  { id: 'mp-202', storeId: '1', promotorId: '2', type: 'after',  timestamp: '08:52', date: today, imageUrl: 'https://picsum.photos/seed/b201/640/480', lat: -19.9334, lng: -43.9383 },
-  { id: 'mp-203', storeId: '2', promotorId: '2', type: 'before', timestamp: '09:10', date: today, imageUrl: 'https://picsum.photos/seed/a202/640/480' },
-  { id: 'mp-204', storeId: '2', promotorId: '2', type: 'after',  timestamp: '09:58', date: today, imageUrl: 'https://picsum.photos/seed/b202/640/480' },
+  { id: 'mp-201', storeId: '1', promotorId: '2', type: 'before', timestamp: '08:00', date: today, imageUrl: IMG_SHRIMP_WHOLE,  lat: -19.9334, lng: -43.9383 },
+  { id: 'mp-202', storeId: '1', promotorId: '2', type: 'after',  timestamp: '08:52', date: today, imageUrl: IMG_SHRIMP_COOKED, lat: -19.9334, lng: -43.9383 },
+  { id: 'mp-203', storeId: '2', promotorId: '2', type: 'before', timestamp: '09:10', date: today, imageUrl: IMG_TILAPIA },
+  { id: 'mp-204', storeId: '2', promotorId: '2', type: 'after',  timestamp: '09:58', date: today, imageUrl: IMG_PAELLA },
   // Hoje — Ana Costa
-  { id: 'mp-301', storeId: '3', promotorId: '3', type: 'before', timestamp: '07:47', date: today, imageUrl: 'https://picsum.photos/seed/a301/640/480' },
-  { id: 'mp-302', storeId: '3', promotorId: '3', type: 'after',  timestamp: '08:40', date: today, imageUrl: 'https://picsum.photos/seed/b301/640/480' },
-  { id: 'mp-303', storeId: '6', promotorId: '3', type: 'before', timestamp: '09:00', date: today, imageUrl: 'https://picsum.photos/seed/a302/640/480' },
-  { id: 'mp-304', storeId: '6', promotorId: '3', type: 'after',  timestamp: '09:50', date: today, imageUrl: 'https://picsum.photos/seed/b302/640/480' },
+  { id: 'mp-301', storeId: '3', promotorId: '3', type: 'before', timestamp: '07:47', date: today, imageUrl: IMG_PAELLA },
+  { id: 'mp-302', storeId: '3', promotorId: '3', type: 'after',  timestamp: '08:40', date: today, imageUrl: IMG_SHRIMP_COOKED },
+  { id: 'mp-303', storeId: '6', promotorId: '3', type: 'before', timestamp: '09:00', date: today, imageUrl: IMG_TILAPIA },
+  { id: 'mp-304', storeId: '6', promotorId: '3', type: 'after',  timestamp: '09:50', date: today, imageUrl: IMG_SHRIMP_WHOLE },
   // Hoje — Pedro Oliveira
-  { id: 'mp-401', storeId: '5', promotorId: '4', type: 'before', timestamp: '08:31', date: today, imageUrl: 'https://picsum.photos/seed/a401/640/480', lat: -19.9547, lng: -43.9512 },
-  { id: 'mp-402', storeId: '5', promotorId: '4', type: 'after',  timestamp: '09:25', date: today, imageUrl: 'https://picsum.photos/seed/b401/640/480', lat: -19.9547, lng: -43.9512 },
+  { id: 'mp-401', storeId: '5', promotorId: '4', type: 'before', timestamp: '08:31', date: today, imageUrl: IMG_SHRIMP_COOKED, lat: -19.9547, lng: -43.9512 },
+  { id: 'mp-402', storeId: '5', promotorId: '4', type: 'after',  timestamp: '09:25', date: today, imageUrl: IMG_PAELLA,        lat: -19.9547, lng: -43.9512 },
   // Hoje — Carla Mendes
-  { id: 'mp-501', storeId: '6', promotorId: '5', type: 'before', timestamp: '07:03', date: today, imageUrl: 'https://picsum.photos/seed/a501/640/480' },
-  { id: 'mp-502', storeId: '6', promotorId: '5', type: 'after',  timestamp: '07:55', date: today, imageUrl: 'https://picsum.photos/seed/b501/640/480' },
-  { id: 'mp-503', storeId: '3', promotorId: '5', type: 'before', timestamp: '08:20', date: today, imageUrl: 'https://picsum.photos/seed/a502/640/480' },
-  { id: 'mp-504', storeId: '3', promotorId: '5', type: 'after',  timestamp: '09:10', date: today, imageUrl: 'https://picsum.photos/seed/b502/640/480' },
+  { id: 'mp-501', storeId: '6', promotorId: '5', type: 'before', timestamp: '07:03', date: today, imageUrl: IMG_SHRIMP_WHOLE },
+  { id: 'mp-502', storeId: '6', promotorId: '5', type: 'after',  timestamp: '07:55', date: today, imageUrl: IMG_TILAPIA },
+  { id: 'mp-503', storeId: '3', promotorId: '5', type: 'before', timestamp: '08:20', date: today, imageUrl: IMG_SHRIMP_COOKED },
+  { id: 'mp-504', storeId: '3', promotorId: '5', type: 'after',  timestamp: '09:10', date: today, imageUrl: IMG_PAELLA },
   // Ontem — Maria Silva
-  { id: 'mp-y101', storeId: '3', promotorId: '1', type: 'before', timestamp: '08:10', date: yesterday, imageUrl: 'https://picsum.photos/seed/ay101/640/480', lat: -19.8938, lng: -43.9445 },
-  { id: 'mp-y102', storeId: '3', promotorId: '1', type: 'after',  timestamp: '09:05', date: yesterday, imageUrl: 'https://picsum.photos/seed/by101/640/480' },
-  { id: 'mp-y103', storeId: '5', promotorId: '1', type: 'before', timestamp: '11:00', date: yesterday, imageUrl: 'https://picsum.photos/seed/ay102/640/480', lat: -19.9547, lng: -43.9512 },
-  { id: 'mp-y104', storeId: '5', promotorId: '1', type: 'after',  timestamp: '11:50', date: yesterday, imageUrl: 'https://picsum.photos/seed/by102/640/480' },
+  { id: 'mp-y101', storeId: '3', promotorId: '1', type: 'before', timestamp: '08:10', date: yesterday, imageUrl: IMG_TILAPIA,       lat: -19.8938, lng: -43.9445 },
+  { id: 'mp-y102', storeId: '3', promotorId: '1', type: 'after',  timestamp: '09:05', date: yesterday, imageUrl: IMG_SHRIMP_COOKED },
+  { id: 'mp-y103', storeId: '5', promotorId: '1', type: 'before', timestamp: '11:00', date: yesterday, imageUrl: IMG_SHRIMP_WHOLE,  lat: -19.9547, lng: -43.9512 },
+  { id: 'mp-y104', storeId: '5', promotorId: '1', type: 'after',  timestamp: '11:50', date: yesterday, imageUrl: IMG_PAELLA },
   // Ontem — João Santos
-  { id: 'mp-y201', storeId: '1', promotorId: '2', type: 'before', timestamp: '08:05', date: yesterday, imageUrl: 'https://picsum.photos/seed/ay201/640/480', lat: -19.9334, lng: -43.9383 },
-  { id: 'mp-y202', storeId: '1', promotorId: '2', type: 'after',  timestamp: '08:58', date: yesterday, imageUrl: 'https://picsum.photos/seed/by201/640/480' },
+  { id: 'mp-y201', storeId: '1', promotorId: '2', type: 'before', timestamp: '08:05', date: yesterday, imageUrl: IMG_TILAPIA,       lat: -19.9334, lng: -43.9383 },
+  { id: 'mp-y202', storeId: '1', promotorId: '2', type: 'after',  timestamp: '08:58', date: yesterday, imageUrl: IMG_SHRIMP_WHOLE },
   // Ontem — Carla Mendes
-  { id: 'mp-y501', storeId: '3', promotorId: '5', type: 'before', timestamp: '07:15', date: yesterday, imageUrl: 'https://picsum.photos/seed/ay501/640/480' },
-  { id: 'mp-y502', storeId: '3', promotorId: '5', type: 'after',  timestamp: '08:05', date: yesterday, imageUrl: 'https://picsum.photos/seed/by501/640/480' },
+  { id: 'mp-y501', storeId: '3', promotorId: '5', type: 'before', timestamp: '07:15', date: yesterday, imageUrl: IMG_SHRIMP_COOKED },
+  { id: 'mp-y502', storeId: '3', promotorId: '5', type: 'after',  timestamp: '08:05', date: yesterday, imageUrl: IMG_TILAPIA },
 ]
 
 export const dashboardStats = {
