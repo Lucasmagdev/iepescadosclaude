@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthStore } from './store/auth'
 import { useVisitStore } from './store/visits'
 import LoginPage from './pages/LoginPage'
+import PropostaPage from './pages/PropostaPage'
 import PromotorLayout from './layouts/PromotorLayout'
 import GestaoLayout from './layouts/GestaoLayout'
 import RoteiroPage from './pages/promotor/RoteiroPage'
@@ -51,6 +52,7 @@ export default function App() {
     <>
       {showSplash && <SplashScreen onDone={handleSplashDone} />}
       <Routes>
+        <Route path="/proposta" element={<PropostaPage />} />
         <Route path="/login" element={
           isAuthenticated 
             ? <Navigate to={user?.role === 'promotor' ? '/promotor' : '/gestao'} replace />
