@@ -8,7 +8,7 @@ const features = [
   { title: 'Registro de Visita com Evidência', desc: 'Check-in e check-out com foto do freezer, carimbo de horário e coordenadas GPS — prova irrefutável de que o promotor esteve na loja.' },
   { title: 'Verificação de Produtos (SKU)', desc: 'Promotor registra disponibilidade, preço e estoque de cada SKU. Rupturas são sinalizadas em tempo real para o gestor.' },
   { title: 'Ocorrências e Justificativas', desc: 'Registro estruturado de preço divergente, ruptura, loja fechada, freezer danificado e outras ocorrências, com campo de observação livre.' },
-  { title: 'Mapa em Tempo Real', desc: 'Gestor acompanha a localização de todos os promotores em mapa interativo. Filtro por data mostra execução histórica por cores (verde/laranja/vermelho).' },
+  { title: 'Mapa em Tempo Real', desc: 'Gestor acompanha a localização de todos os promotores em mapa interativo. Filtro por data mostra execução histórica por cores.' },
   { title: 'Dashboard Gerencial', desc: 'Painel com KPIs do dia: visitas programadas vs. executadas, percentual de execução, rupturas e ocorrências, filtráveis por período.' },
   { title: 'Relatório Gerencial Completo', desc: 'Página dedicada com gráficos de execução por promotor, ranking, rupturas por produto, tabela de ocorrências e exportação em Excel (6 abas).' },
   { title: 'Exportação Excel', desc: 'Relatório em .xlsx com abas: Resumo, Visitas, Rupturas, Ocorrências, Produtos e Ranking de Promotores — gerado com 1 clique, filtrado por período.' },
@@ -56,19 +56,17 @@ export default function PropostaPage() {
         <div style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)' }} className="px-10 pt-10 pb-8">
           <div className="flex items-start justify-between">
             <div>
-              <div className="mb-4">
-                <img src="/logo.png" alt="IE Pescados" style={{ height: 52, width: 'auto', objectFit: 'contain' }} />
+              {/* Logo com fundo branco pra visibilidade */}
+              <div className="mb-5 inline-block px-4 py-2 rounded-xl" style={{ background: 'white' }}>
+                <img src="/logo.png" alt="IE Pescados" style={{ height: 44, width: 'auto', objectFit: 'contain', display: 'block' }} />
               </div>
               <h1 className="text-3xl font-black text-white leading-tight">Proposta Comercial</h1>
               <p className="mt-1" style={{ color: '#A3A3A3', fontSize: 14 }}>Plataforma Digital para Gestão de Equipe de Campo</p>
             </div>
             <div className="text-right">
-              <div className="px-3 py-1 rounded-full text-xs font-bold mb-3" style={{ background: 'rgba(232,100,42,0.2)', color: '#E8642A' }}>
-                PROPOSTA Nº 001/2026
-              </div>
               <p className="text-xs" style={{ color: '#737373' }}>Emitida em</p>
               <p className="text-sm font-semibold text-white">{hoje}</p>
-              <p className="text-xs mt-2" style={{ color: '#737373' }}>Válida até</p>
+              <p className="text-xs mt-3" style={{ color: '#737373' }}>Válida até</p>
               <p className="text-sm font-semibold" style={{ color: '#F3B23C' }}>{validade}</p>
             </div>
           </div>
@@ -88,16 +86,22 @@ export default function PropostaPage() {
             </p>
           </div>
 
-          {/* Investimento — destaque */}
+          {/* Investimento */}
           <div className="rounded-2xl overflow-hidden border-2" style={{ borderColor: '#E8642A' }}>
             <div className="px-6 py-4" style={{ background: '#E8642A' }}>
               <h2 className="text-white font-black text-lg">Investimento</h2>
             </div>
             <div className="grid grid-cols-2 divide-x">
+
+              {/* Implantação */}
               <div className="px-6 py-6">
                 <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#A3A3A3' }}>Implantação</p>
                 <p className="text-3xl font-black" style={{ color: '#171717' }}>R$ 7.000<span className="text-base font-semibold text-gray-400">,00</span></p>
-                <p className="text-xs mt-2" style={{ color: '#737373' }}>Pagamento único · Parcelamento disponível</p>
+                <div className="mt-2 space-y-1">
+                  <p className="text-xs" style={{ color: '#737373' }}>• À vista via Pix ou transferência</p>
+                  <p className="text-xs" style={{ color: '#737373' }}>• Parcelado em até <strong style={{ color: '#E8642A' }}>7x no Infinite Pay</strong> (com juros)</p>
+                  <p className="text-xs" style={{ color: '#737373' }}>• 50% na aprovação · 50% na entrega</p>
+                </div>
                 <div className="mt-4 space-y-1.5">
                   {['Desenvolvimento completo da plataforma', 'Configuração e hospedagem inicial', 'Treinamento da equipe (online)', 'Documentação de uso'].map(i => (
                     <div key={i} className="flex items-start gap-2">
@@ -107,10 +111,12 @@ export default function PropostaPage() {
                   ))}
                 </div>
               </div>
+
+              {/* Manutenção */}
               <div className="px-6 py-6" style={{ background: '#FAFAFA' }}>
                 <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#A3A3A3' }}>Manutenção Mensal</p>
 
-                {/* Plano Essencial */}
+                {/* Essencial */}
                 <div className="rounded-xl p-3 mb-3 border-2" style={{ borderColor: '#E8642A', background: 'white' }}>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-xs font-black uppercase" style={{ color: '#E8642A' }}>Essencial</span>
@@ -126,14 +132,14 @@ export default function PropostaPage() {
                   </div>
                 </div>
 
-                {/* Plano Premium */}
+                {/* Premium */}
                 <div className="rounded-xl p-3" style={{ background: '#1a1a1a' }}>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-xs font-black uppercase" style={{ color: '#F3B23C' }}>Premium</span>
                     <span className="text-lg font-black text-white">R$ 500<span className="text-xs font-normal" style={{ color: '#737373' }}>/mês</span></span>
                   </div>
                   <div className="space-y-1">
-                    {[...mensalidade, 'Suporte técnico 24 horas por dia, 7 dias por semana'].map(i => (
+                    {[...mensalidade, 'Suporte técnico 24/7 — 7 dias por semana'].map(i => (
                       <div key={i} className="flex items-start gap-1.5">
                         <span style={{ color: '#F3B23C', fontSize: 11, marginTop: 2 }}>✓</span>
                         <span style={{ fontSize: 11, color: '#A3A3A3' }}>{i}</span>
@@ -195,7 +201,7 @@ export default function PropostaPage() {
             </div>
           </div>
 
-          {/* Termos */}
+          {/* Condições */}
           <div className="rounded-xl p-5 border" style={{ borderColor: '#E5E5E5' }}>
             <h3 className="font-bold text-sm mb-3" style={{ color: '#171717' }}>Condições Gerais</h3>
             <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
@@ -203,9 +209,9 @@ export default function PropostaPage() {
                 ['Validade da proposta', '30 dias a partir da emissão'],
                 ['Início do desenvolvimento', 'Após aprovação e sinal de 50%'],
                 ['Saldo da implantação', 'Na entrega em produção'],
+                ['Parcelamento', 'Até 7x no Infinite Pay (com juros)'],
                 ['Mensalidade', 'Cobrança mensal, vencimento dia 5'],
-                ['Suporte Essencial', 'Horário comercial (plano R$250/mês)'],
-                ['Suporte Premium', '24h/7 dias (plano R$500/mês)'],
+                ['Suporte 24/7', 'Exclusivo plano Premium (R$500/mês)'],
                 ['Contrato mínimo', '3 meses de manutenção'],
               ].map(([k, v]) => (
                 <div key={k} className="flex flex-col">
@@ -214,26 +220,6 @@ export default function PropostaPage() {
                 </div>
               ))}
             </div>
-          </div>
-
-          {/* Assinaturas */}
-          <div className="grid grid-cols-2 gap-8 pt-4">
-            {['Contratante', 'Contratado'].map(p => (
-              <div key={p}>
-                <div style={{ height: 1, background: '#D4D4D4' }} className="mb-3" />
-                <p className="text-xs font-semibold" style={{ color: '#525252' }}>{p}</p>
-                <p className="text-xs mt-1" style={{ color: '#A3A3A3' }}>
-                  {p === 'Contratado' ? 'Lucas Magdev — Desenvolvedor' : 'IE Pescados Distribuidora Ltda.'}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* Footer */}
-          <div className="text-center pt-2 pb-2">
-            <p className="text-xs" style={{ color: '#D4D4D4' }}>
-              IE Pescados App · Proposta gerada em {hoje} · lucas@iepescados.com.br
-            </p>
           </div>
 
         </div>
