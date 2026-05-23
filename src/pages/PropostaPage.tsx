@@ -212,7 +212,6 @@ export default function PropostaPage() {
                 ['Parcelamento', 'Até 7x no Infinite Pay (com juros)'],
                 ['Mensalidade', 'Cobrança mensal, vencimento dia 5'],
                 ['Suporte 24/7', 'Exclusivo plano Premium (R$500/mês)'],
-                ['Contrato mínimo', '3 meses de manutenção'],
               ].map(([k, v]) => (
                 <div key={k} className="flex flex-col">
                   <span className="text-xs font-semibold" style={{ color: '#A3A3A3' }}>{k}</span>
