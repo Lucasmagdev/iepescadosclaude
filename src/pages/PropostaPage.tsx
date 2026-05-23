@@ -56,14 +56,8 @@ export default function PropostaPage() {
         <div style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)' }} className="px-10 pt-10 pb-8">
           <div className="flex items-start justify-between">
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#E8642A' }}>
-                  <span className="text-white font-black text-lg">🐟</span>
-                </div>
-                <div>
-                  <p className="text-white font-black text-xl tracking-tight">IE Pescados</p>
-                  <p className="text-xs" style={{ color: '#F3B23C' }}>Sistema de Gestão de Promotores</p>
-                </div>
+              <div className="mb-4">
+                <img src="/logo.png" alt="IE Pescados" style={{ height: 52, width: 'auto', objectFit: 'contain' }} />
               </div>
               <h1 className="text-3xl font-black text-white leading-tight">Proposta Comercial</h1>
               <p className="mt-1" style={{ color: '#A3A3A3', fontSize: 14 }}>Plataforma Digital para Gestão de Equipe de Campo</p>
