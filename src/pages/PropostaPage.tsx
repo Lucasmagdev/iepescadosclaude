@@ -1,4 +1,5 @@
 import { Printer } from 'lucide-react'
+import { useRef, useState } from 'react'
 
 const hoje = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })
 const validade = new Date(Date.now() + 30 * 86400000).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })
@@ -25,6 +26,49 @@ const mensalidade = [
 ]
 
 export default function PropostaPage() {
+  const pageRef = useRef<HTMLDivElement>(null)
+  const [generating, setGenerating] = useState(false)
+
+  async function exportPDF() {
+    if (!pageRef.current) return
+    setGenerating(true)
+    try {
+      const html2canvas = (await import('html2canvas')).default
+      const jsPDF = (await import('jspdf')).jsPDF
+
+      const canvas = await html2canvas(pageRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+      })
+
+      const imgData = canvas.toDataURL('image/png')
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' })
+
+      const pdfW = pdf.internal.pageSize.getWidth()
+      const pdfH = pdf.internal.pageSize.getHeight()
+      const ratio = canvas.height / canvas.width
+      const imgH = pdfW * ratio
+
+      if (imgH <= pdfH) {
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfW, imgH)
+      } else {
+        // múltiplas páginas se o conteúdo for longo
+        let yOffset = 0
+        while (yOffset < imgH) {
+          if (yOffset > 0) pdf.addPage()
+          pdf.addImage(imgData, 'PNG', 0, -yOffset, pdfW, imgH)
+          yOffset += pdfH
+        }
+      }
+
+      pdf.save('IE_Pescados_Proposta_Comercial.pdf')
+    } finally {
+      setGenerating(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 py-8 px-4 print:bg-white print:py-0 print:px-0">
       <style>{`
@@ -37,20 +81,21 @@ export default function PropostaPage() {
         .page { page-break-inside: avoid; }
       `}</style>
 
-      {/* Print button */}
+      {/* Export button */}
       <div className="no-print flex justify-center mb-6">
         <button
-          onClick={() => window.print()}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-semibold shadow-lg hover:opacity-90 transition-opacity"
+          onClick={exportPDF}
+          disabled={generating}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-semibold shadow-lg hover:opacity-90 transition-opacity disabled:opacity-60"
           style={{ background: '#E8642A' }}
         >
           <Printer className="w-4 h-4" />
-          Exportar PDF
+          {generating ? 'Gerando PDF...' : 'Exportar PDF'}
         </button>
       </div>
 
       {/* A4 Page */}
-      <div className="page bg-white max-w-3xl mx-auto shadow-xl rounded-2xl overflow-hidden">
+      <div ref={pageRef} className="page bg-white max-w-3xl mx-auto shadow-xl rounded-2xl overflow-hidden">
 
         {/* Header */}
         <div style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)' }} className="px-10 pt-10 pb-8">
